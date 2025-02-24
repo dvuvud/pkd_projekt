@@ -1,0 +1,28 @@
+{
+  "name": "pkd_projekt",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dvuvud/pkd_projekt.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dvuvud/pkd_projekt/issues"
+  },
+  "homepage": "https://github.com/dvuvud/pkd_projekt#readme",
+  "description": "",
+  "devDependencies": {
+    "@types/express": "^5.0.0",
+    "typescript": "^5.7.3"
+  },
+  "dependencies": {
+    "express": "^4.17.1",
+    "express.js": "^1.0.0"
+  }
+}
