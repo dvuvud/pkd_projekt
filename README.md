@@ -1,5 +1,5 @@
 <h1>Server</h1>
-The server is running ExpressJS to handle API calls. API endpoints are currently defined inside ./app.js.
+The server is running ExpressJS to handle API calls. API endpoints are currently defined inside <code>server/app.js</code>.
 <h2>Swagger</h2>
 Installed alongside ExpressJS is Swagger, used for documenting datatypes and testing API calls (not actual code testing, just for ease of development). Swagger can be reached on localhost:3000/api-docs.
 Specifications (for Swagger specifically) for the data types and endpoints are inside <code>server/routes/*.js</code>
