@@ -5,6 +5,7 @@ const express = require("express"),
   
 import { type User } from './types/user';
 import { type Message } from './types/message'
+import { rec_message, send_message } from './endpoints/message'
 
 const app = express();
 const port = 3000;
@@ -12,22 +13,8 @@ const port = 3000;
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
-app.get('/', (req, res) => {
-  res.send('Hello World!')
-});
-
-app.get('/user', (req, res) => {
-  const testUser: User = {
-    username: "testuser",
-    publicKey: "testkey"
-  }
-
-  res.setHeader('Content-Type', 'application/json')
-  res.send(testUser);
-});
-
 app.post('/message', (req, res) => {
-  console.log(req.body);
+  rec_message(JSON.parse(req.body));
   res.sendStatus(200);
 })
 

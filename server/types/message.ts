@@ -5,5 +5,5 @@ export type Message = {
     content: string,
     recipient: User,
     sender: User,
-    timestamp: Date
+    timestamp: string
 }
