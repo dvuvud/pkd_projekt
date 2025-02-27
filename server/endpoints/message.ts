@@ -8,11 +8,11 @@ const messages: Array<Message> = [];
  * @param {}
  * @returns a status code {number}
  */
-export function rec_message(message: Message): void {
+export function post_message(message: Message): void {
     messages.push(message);
     console.log(messages);
 }
 
-export function send_message() {
-    
+export function get_message(): Array<Message> {
+    return messages;
 }

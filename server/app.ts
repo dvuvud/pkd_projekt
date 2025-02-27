@@ -5,7 +5,7 @@ const express = require("express"),
   
 import { type User } from './types/user';
 import { type Message } from './types/message'
-import { rec_message, send_message } from './endpoints/message'
+import { post_message, get_message } from './endpoints/message'
 
 const app = express();
 const port = 3000;
@@ -14,9 +14,15 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
 app.post('/message', (req, res) => {
-  rec_message(JSON.parse(req.body));
+  post_message(req.body);
   res.sendStatus(200);
 })
+
+app.get('/message', (req, res) => {
+  get_message();
+  res.sendStatus(200);
+})
+
 
 app.listen(port, () => {
   console.log("Example app listening on port ${port}")
