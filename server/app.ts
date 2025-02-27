@@ -19,10 +19,9 @@ app.post('/message', (req, res) => {
 })
 
 app.get('/message', (req, res) => {
-  get_message();
-  res.sendStatus(200);
+  res.setHeader('Content-Type', 'application/json')
+  res.send(get_message());
 })
-
 
 app.listen(port, () => {
   console.log("Example app listening on port ${port}")

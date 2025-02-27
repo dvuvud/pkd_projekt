@@ -38,6 +38,9 @@
  *         sender:
  *           type: string
  *           description: the sender username
+ *         timestamp:
+ *           type: string
+ *           description: the time of sending
  * 
  * /user: 
  *   get: 
@@ -69,4 +72,13 @@
  *     responses: 
  *       200: 
  *         description: sent message
+ *   get: 
+ *     summary: get messages
+ *     responses: 
+ *       200: 
+ *         description: got messages
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Message'
  */
