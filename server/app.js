@@ -7,9 +7,12 @@ var port = 3000;
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.post('/message', function (req, res) {
-    (0, message_1.rec_message)(req.body);
-    //console.log(req.body);
+    (0, message_1.post_message)(req.body);
     res.sendStatus(200);
+});
+app.get('/message', function (req, res) {
+    res.setHeader('Content-Type', 'application/json');
+    res.send((0, message_1.get_message)());
 });
 app.listen(port, function () {
     console.log("Example app listening on port ${port}");
