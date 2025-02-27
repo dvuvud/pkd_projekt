@@ -1,23 +1,14 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var express = require("express"), bodyParser = require("body-parser"), swaggerJsdoc = require("swagger-jsdoc"), swaggerUi = require("swagger-ui-express");
+var message_1 = require("./endpoints/message");
 var app = express();
 var port = 3000;
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.get('/', function (req, res) {
-    res.send('Hello World!');
-});
-app.get('/user', function (req, res) {
-    var testUser = {
-        username: "testuser",
-        publicKey: "testkey"
-    };
-    res.setHeader('Content-Type', 'application/json');
-    res.send(testUser);
-});
 app.post('/message', function (req, res) {
-    console.log(req.body);
+    (0, message_1.rec_message)(req.body);
+    //console.log(req.body);
     res.sendStatus(200);
 });
 app.listen(port, function () {
