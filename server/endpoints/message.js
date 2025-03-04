@@ -5,8 +5,8 @@ exports.get_message = get_message;
 var messages = [];
 /**
  * Receives a message from post
- * @param {}
- * @returns a status code {number}
+ * @param { Message }
+ * @returns { number } Status code
  */
 function post_message(message) {
     messages.push(message);

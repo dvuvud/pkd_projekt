@@ -1,7 +1,7 @@
 <h1>Server</h1>
 The server is running ExpressJS to handle API calls. API endpoints are currently defined inside <code>server/app.js</code>.
 <h2>Swagger</h2>
-Installed alongside ExpressJS is Swagger, used for documenting datatypes and testing API calls (not actual code testing, just for ease of development). Swagger can be reached on localhost:3000/api-docs.
+Installed alongside ExpressJS is Swagger, used for documenting datatypes and testing API calls (not actual code testing, just for ease of development). Swagger can be reached on localhost:5000/api-docs.
 Specifications (for Swagger specifically) for the data types and endpoints are inside <code>server/routes/*.js</code>
 
 <h2>Run the server</h2>
@@ -10,7 +10,11 @@ Specifications (for Swagger specifically) for the data types and endpoints are i
   <li>Inside <code>/server</code>, run <code>npm install</code>. This will install dependencies listed inside package.json</li>
   <li>Start the server by runnning <code>tsc app.ts; node app.js</code></li>
 </ol>
-The server is now listening on port 3000. Requests can be made in any way you usually make API requests (curl, Postman, etc), you can reach Swagger on localhost:3000/api-docs.
+The server is now listening on port 5000. Requests can be made in any way you usually make API requests (curl, Postman, etc), you can reach Swagger on localhost:5000/api-docs.
 
 <h1>Client</h1>
-TODO
+<ol>
+  <li>To run the client, write and run <code>npm start</code> inside the <code>/client</code> folder (*You might have install react first? I don't know, try things). The client should open in a tab in the browser. </li>
+  <li>Typescript is compiled automatically after the client is started; no <code>tsc ...; node ...</code> needed. To compile, just save the changes in <code>App.tsx</code>. </li>
+</ol>
+The default port for react is 3000. If 3000 is occupied, it will ask to start the client on a different port (3001 by default I think). If you expreience issues you might have to run <code>npm install --save typescript @types/node @types/react @types/react-dom @types/jest</code>.

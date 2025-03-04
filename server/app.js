@@ -3,9 +3,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var express = require("express"), bodyParser = require("body-parser"), swaggerJsdoc = require("swagger-jsdoc"), swaggerUi = require("swagger-ui-express");
 var message_1 = require("./endpoints/message");
 var app = express();
-var port = 3000;
+var port = 5000;
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+app.get('/', function (req, res) {
+    res.send('Server working!');
+});
 app.post('/message', function (req, res) {
     (0, message_1.post_message)(req.body);
     res.sendStatus(200);

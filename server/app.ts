@@ -8,20 +8,26 @@ import { type Message } from './types/message'
 import { post_message, get_message } from './endpoints/message'
 
 const app = express();
-const port = 3000;
+const port = 5000;
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
+
+app.get('/', function(req, res){
+  res.send('Server working!');
+});
+
 app.post('/message', (req, res) => {
   post_message(req.body);
   res.sendStatus(200);
-})
+});
 
 app.get('/message', (req, res) => {
   res.setHeader('Content-Type', 'application/json')
   res.send(get_message());
-})
+});
+
 
 app.listen(port, () => {
   console.log("Example app listening on port ${port}")

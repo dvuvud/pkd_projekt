@@ -5,8 +5,8 @@ const messages: Array<Message> = [];
 
 /**
  * Receives a message from post
- * @param {}
- * @returns a status code {number}
+ * @param { Message } 
+ * @returns { number } Status code 
  */
 export function post_message(message: Message): void {
     messages.push(message);
