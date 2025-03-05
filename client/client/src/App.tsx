@@ -5,16 +5,8 @@ import './App.css'
 import axios from 'axios'
 
 
-
-
 function App() {
   const [messages, setMessages] = useState([]);
-
-  function printMessages() {
-    return({
-      messages.map((item) => )
-    });
-  }
   
   useEffect(() => {
     axios.get('http://localhost:5000/message')
@@ -29,15 +21,32 @@ function App() {
     .finally(function () {
       // always executed
     });
-  },[]);
+  }, []);
 
 
   return (
     <>
-      <p>{messages.length !== 0 ? messages[0].id : "Åh nej!"}</p>
-      <p>HEJ HEJ</p>
+      {printMessages(messages)}
     </>
   )
 }
 
-export default App
+
+function printMessages(messages) {
+  if(messages.length === 0) {
+    return(<p>Zero messages found.</p>);
+  } 
+  return(
+    <>
+    {
+      messages.map(mes => (
+        <h1>{mes.sender}</h1>
+        
+      ))
+    }
+    </>
+  );
+}
+
+
+export default App;
