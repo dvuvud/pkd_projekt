@@ -7,7 +7,7 @@ import { type User } from './types/user';
 import { type Message } from './types/message'
 import { post_message, get_message } from './endpoints/message'
 
-var cors = require('cors')
+var cors = require('cors');
 
 var corsOptions = {
   origin: 'http://localhost:5173',
