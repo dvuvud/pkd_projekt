@@ -7,6 +7,14 @@ import { type User } from './types/user';
 import { type Message } from './types/message'
 import { post_message, get_message } from './endpoints/message'
 
+var cors = require('cors')
+
+var corsOptions = {
+  origin: 'http://localhost:5173',
+  optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
+}
+
+
 const app = express();
 const port = 5000;
 
@@ -18,12 +26,12 @@ app.get('/', function(req, res){
   res.send('Server working!');
 });
 
-app.post('/message', (req, res) => {
+app.post('/message', cors(corsOptions), (req, res) => {
   post_message(req.body);
   res.sendStatus(200);
 });
 
-app.get('/message', (req, res) => {
+app.get('/message', cors(corsOptions), (req, res) => {
   res.setHeader('Content-Type', 'application/json')
   res.send(get_message());
 });
@@ -53,7 +61,7 @@ const options = {
       },
       servers: [
         {
-          url: "http://localhost:3000",
+          url: "http://localhost:5000",
         },
       ],
     },

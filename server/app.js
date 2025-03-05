@@ -2,6 +2,11 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 var express = require("express"), bodyParser = require("body-parser"), swaggerJsdoc = require("swagger-jsdoc"), swaggerUi = require("swagger-ui-express");
 var message_1 = require("./endpoints/message");
+var cors = require('cors');
+var corsOptions = {
+    origin: 'http://localhost:5173',
+    optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
+};
 var app = express();
 var port = 5000;
 app.use(bodyParser.json());
@@ -9,11 +14,11 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.get('/', function (req, res) {
     res.send('Server working!');
 });
-app.post('/message', function (req, res) {
+app.post('/message', cors(corsOptions), function (req, res) {
     (0, message_1.post_message)(req.body);
     res.sendStatus(200);
 });
-app.get('/message', function (req, res) {
+app.get('/message', cors(corsOptions), function (req, res) {
     res.setHeader('Content-Type', 'application/json');
     res.send((0, message_1.get_message)());
 });
@@ -39,7 +44,7 @@ var options = {
         },
         servers: [
             {
-                url: "http://localhost:3000",
+                url: "http://localhost:5000",
             },
         ],
     },
