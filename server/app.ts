@@ -27,13 +27,15 @@ app.get('/', function(req, res){
 });
 
 app.post('/message', cors(corsOptions), (req, res) => {
+  // Messages now need user objects in order to be correctly sent and received
   post_message(req.body);
   res.sendStatus(200);
 });
 
 app.get('/message', cors(corsOptions), (req, res) => {
   res.setHeader('Content-Type', 'application/json')
-  res.send(get_message());
+  // Messages now need user objects in order to be correctly sent and received
+  res.send(get_message(/*The user of the person making the request*/));
 });
 
 
