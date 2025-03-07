@@ -2,10 +2,8 @@ import { type User, UserID } from './user';
 import { type Pair, pair, head, tail } from './list';
 
 /**
- * A message record storying information about the receiver, sender,
+ * A message record storing information about the receiver, sender,
  * the message itself, as well as the time it was sent
- * @param key the key
- * @returns the hash of the key.
  */
 export type Message = {
     id: UserID,
