@@ -1,4 +1,4 @@
-import { type User, UserID } from './user';
+import { type User, Username } from './user';
 import { type Pair, pair, head, tail } from './list';
 
 /**
@@ -7,10 +7,9 @@ import { type Pair, pair, head, tail } from './list';
  * add more comments later (gotta check how to write docs for records)
  */
 export type Message = {
-    id: UserID,
     content: string,
-    recipient: User,
-    sender: User,
+    recipient: Username,
+    sender: Username,
     timestamp: string
 }
 

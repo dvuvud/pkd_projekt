@@ -6,7 +6,7 @@ const express = require("express"),
 import { type User } from '../types/user';
 import { type Message } from '../types/message'
 import { post_message, get_message } from './endpoints/message'
-import { create_user } from './endpoints/user';
+import { create_user, find_user, get_number_of_users } from './endpoints/user';
 
 var cors = require('cors');
 
@@ -34,16 +34,21 @@ app.post('/message', cors(corsOptions), (req, res) => {
 });
 
 app.post('/user', cors(corsOptions), (req, res) => {
-  create_user(req.body);
-  res.sendStatus(200);
+  const user: User = req.body;
+  create_user(user);
+  res.sendStatus(user.username);
+});
+
+app.get('/user', cors(corsOptions), (req, res) => {
+  res.send(find_user(req.query.username));
 });
 
 app.get('/message', cors(corsOptions), (req, res) => {
   res.setHeader('Content-Type', 'application/json')
   // Messages now need user objects in order to be correctly sent and received
-  res.send(get_message(/*The user object of the person making the request*/));
+  if (find_user(req.query.sender) )
+  res.send(get_message(req.query.recipient, req.query.sender));
 });
-
 
 app.listen(port, () => {
   console.log("Example app listening on port ${port}")
