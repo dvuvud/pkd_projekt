@@ -10,15 +10,12 @@ const users: ProbingHashtable<UserID, User> = ph_empty(100, hash_fun);
 
 /**
  * Constructs a user
- * @param { UserID } userID - the userID of the new user
- * @param { string } username - the username of the new user
- * @param { string } publicKey - the users public key
+ * @param { User } user - the user to be created
  * @returns { User } the user just created
  */
-export function create_user(userID: UserID, username: string, publicKey: string): User {
-    const user: User = { userID, username, publicKey };
-    ph_insert(users, userID, user);
-    ph_insert(usr_messages, userID, empty_messages());
+export function create_user(user: User): User {
+    ph_insert(users, user.userID, user);
+    ph_insert(usr_messages, user.userID, empty_messages());
     return user;
 }
 

@@ -2,6 +2,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { Link, useNavigate } from "react-router-dom";
 import { generateKeyPair } from '../helpers/cryptography';
+import {  }
 
 export function Login() {
     const navigate = useNavigate();
@@ -26,7 +27,7 @@ export function Login() {
             // ADD FUNCTIONALITY TO GET IF USER EXISTS BLA BLA !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
             generateKeyPair();
-
+            
             localStorage.setItem("username", usernameRef.current.value);
             navigate("/contacts");
         }

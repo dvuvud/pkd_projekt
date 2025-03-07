@@ -6,6 +6,7 @@ const express = require("express"),
 import { type User } from './types/user';
 import { type Message } from './types/message'
 import { post_message, get_message } from './endpoints/message'
+import { create_user } from './endpoints/user';
 
 var cors = require('cors');
 
@@ -29,6 +30,11 @@ app.get('/', function(req, res){
 app.post('/message', cors(corsOptions), (req, res) => {
   // Messages now need user objects in order to be correctly sent and received
   post_message(req.body);
+  res.sendStatus(200);
+});
+
+app.post('/user', cors(corsOptions), (req, res) => {
+  create_user(req.body);
   res.sendStatus(200);
 });
 
