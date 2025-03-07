@@ -17,6 +17,6 @@ The server is now listening on port 5000. Requests can be made in any way you us
 <ol>
   <li>In <code>.\client\client</code> (should probably fix path), run <code>npm install --legacy-peer-deps</code> and then <code>npm install --save typescript @types/node @types/react @types/react-dom @types/jest</code>
   <li>Launch the app by running <code>npm run dev</code></li>
-  <li>Follow the link in the terminal, <code>http://localhost:xxxx</code>, in the terminal to browse the site.</li>
+  <li>Browse the app by clicking the link in the terminal, <code>http://localhost:xxxx</code></li>
   <li>Typescript is compiled automatically after the client is started; no <code>tsc ...; node ...</code> needed. To compile, just save the changes in <code>App.tsx</code>. </li>
 </ol>
