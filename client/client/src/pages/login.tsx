@@ -18,20 +18,24 @@ export function Login() {
     const passwordRef = useRef(null);
 
     const handleSubmit = (event) => {
-        event.preventDefault(); // Prevents page reload on pressing button. 
-        //alert(usernameRef.current.value + " - " + passwordRef.current.value);
-        // ADD FUNCTIONALITY TO GET IF USER EXISTS BLA BLA !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        if(usernameRef.current.value === "") {
+            alert("Username field is empty.");
+        } else {
+            event.preventDefault(); // Prevents page reload on pressing button. 
+            //alert(usernameRef.current.value + " - " + passwordRef.current.value);
+            // ADD FUNCTIONALITY TO GET IF USER EXISTS BLA BLA !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-        generateKeyPair();
+            generateKeyPair();
 
-        localStorage.setItem("username", usernameRef.current.value);
-        navigate("/contacts");
+            localStorage.setItem("username", usernameRef.current.value);
+            navigate("/contacts");
+        }
     };
 
     return (
         <>
             <div id="loginPanel">
-                <h1>Login Panel</h1>
+                <h1>Login</h1>
                 <input name="username" type="text" placeholder="Username" ref={usernameRef}/>
                 <input name="password" type="password" placeholder="Password" ref={passwordRef}/>
                 <button type="submit" onClick={handleSubmit}>Login</button>

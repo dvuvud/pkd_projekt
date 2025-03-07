@@ -5,6 +5,8 @@ import { User } from '../../../server/types/user';
 import { Contacts } from './pages/contacts';
 
 import "./stylesheets/App.css";
+import "./stylesheets/login.css";
+
 
 export var userData: User;
 
