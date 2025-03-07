@@ -3,8 +3,8 @@ const express = require("express"),
   swaggerJsdoc = require("swagger-jsdoc"),
   swaggerUi = require("swagger-ui-express");
   
-import { type User } from './types/user';
-import { type Message } from './types/message'
+import { type User } from '../types/user';
+import { type Message } from '../types/message'
 import { post_message, get_message } from './endpoints/message'
 import { create_user } from './endpoints/user';
 

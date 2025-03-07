@@ -1,5 +1,5 @@
-import { User, UserID } from '../types/user';
-import { Message, Messages, received_messages, sent_messages } from '../types/message';
+import { User, UserID } from '../../types/user';
+import { Message, Messages, received_messages, sent_messages } from '../../types/message';
 import { insert_sent_message, get_usr_messages, insert_received_message } from './user';
 
 /**

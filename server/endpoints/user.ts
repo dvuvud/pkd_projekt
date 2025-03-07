@@ -1,6 +1,6 @@
-import { User, UserID } from '../types/user';
-import { Message, Messages, empty_messages, store_sent_message, store_received_message } from '../types/message';
-import { HashFunction, ProbingHashtable, ph_empty, ph_insert, ph_lookup } from '../types/hashtables';
+import { User, UserID } from '../../types/user';
+import { Message, Messages, empty_messages, store_sent_message, store_received_message } from '../../types/message';
+import { HashFunction, ProbingHashtable, ph_empty, ph_insert, ph_lookup } from '../../types/hashtables';
 
 const hash_fun: HashFunction<UserID> = (key: UserID) => key;
 // A hash table storing a users messages by their userID
