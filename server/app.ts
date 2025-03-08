@@ -17,7 +17,7 @@ var corsOptions = {
 
 
 const app = express();
-const port = 5000;
+const port = 6868;
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -36,7 +36,7 @@ app.post('/message', cors(corsOptions), (req, res) => {
 app.post('/user', cors(corsOptions), (req, res) => {
   const user: User = req.body;
   create_user(user);
-  res.sendStatus(user.username);
+  res.send(user.username);
 });
 
 app.get('/user', cors(corsOptions), (req, res) => {
@@ -74,7 +74,7 @@ const options = {
       },
       servers: [
         {
-          url: "http://localhost:5000",
+          url: "http://localhost:6868",
         },
       ],
     },
