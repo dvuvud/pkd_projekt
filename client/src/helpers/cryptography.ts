@@ -34,6 +34,7 @@ export const generateKeyPair = async (): Promise<{publicKeyPem: string, privateK
 
         //save the private key in local storage, so that it can be used to decrypt incoming messages
         localStorage.setItem('private_key', privateKeyPem);
+        localStorage.setItem('public_key', publicKeyPem);
 
         //optional: prompt the user to download the private key to device
         downloadPrivateKey(privateKeyPem);

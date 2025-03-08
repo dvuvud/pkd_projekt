@@ -16,18 +16,40 @@ export function Login() {
     }, [localStorageUsername]);
 
     const usernameRef = useRef(null);
-    const passwordRef = useRef(null);
+    // const passwordRef = useRef(null);
 
     const handleLogin = (event) => {
         if(usernameRef.current.value === "") {
             alert("Username field is empty.");
         } else {
             event.preventDefault(); // Prevents page reload on pressing button. 
-            
-            localStorage.setItem("username", usernameRef.current.value);
-            navigate("/contacts");
+
+            axios.get("user", { 
+                params: {
+                    username: usernameRef.current.value
+                }
+            })
+            .then(function (response) {
+                console.log(response.status);
+
+                if(response.data === "") {
+                    alert("Username does not exist.");
+                } else {
+                    localStorage.setItem("username", response.data.username); 
+                    //localStorage.setItem("public_key", response.data.publicKey); 
+                    navigate("/contacts");
+                }
+            })
+            .catch(function (error) {
+                console.log(error);
+                // handle error
+            })
+            .finally(function () {
+                // always executed
+            });
         }
     };
+
     const handleRegister = async(event) => {
         if(usernameRef.current.value === "") {
             alert("Username field is empty.");
@@ -36,13 +58,13 @@ export function Login() {
             const keys = await generateKeyPair();
 
             
-            axios.post('http://localhost:5000/user', {
+            axios.post('user', {
                 username: usernameRef.current.value,
                 publicKey: keys.publicKeyPem
             })
             .then(function (response) {
                 localStorage.setItem("username", usernameRef.current.value);
-                localStorage.setItem("publicKey", keys.publicKeyPem);
+                //localStorage.setItem("publicKey", keys.publicKeyPem);
 
                 navigate("/contacts");
             })
@@ -53,13 +75,6 @@ export function Login() {
             .finally(function () {
                 // always executed
             });
-
-
-            generateKeyPair();
-            
-            localStorage.setItem("username", usernameRef.current.value);
-
-            navigate("/contacts");
         }
     };
 
@@ -68,7 +83,7 @@ export function Login() {
             <div id="loginPanel">
                 <h1>Login</h1>
                 <input name="username" type="text" placeholder="Username" ref={usernameRef}/>
-                <input name="password" type="password" placeholder="Password" ref={passwordRef}/>
+                {/*<input name="password" type="password" placeholder="Password" ref={passwordRef}/>*/}
                 <button className="loginButton" type="submit" onClick={handleLogin}>Login</button>
                 <button className="registerButton" type="submit" onClick={handleRegister}>Register</button>
                 {/*<Link to="/chat">CHAT LINK</Link>*/}

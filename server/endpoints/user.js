@@ -20,6 +20,7 @@ var users = (0, hashtables_1.ph_empty)(100, hash_fun);
 function create_user(user) {
     (0, hashtables_1.ph_insert)(users, user.username, user);
     (0, hashtables_1.ph_insert)(usr_messages, user.username, (0, message_1.empty_messages)());
+    console.log(users);
     return user;
 }
 /**

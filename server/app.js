@@ -12,27 +12,33 @@ var app = express();
 var port = 5000;
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(cors());
 app.get('/', function (req, res) {
     res.send('Server working!');
 });
+// Message
 app.post('/message', cors(corsOptions), function (req, res) {
     // Messages now need user objects in order to be correctly sent and received
     (0, message_1.post_message)(req.body);
     res.sendStatus(200);
 });
-app.post('/user', cors(corsOptions), function (req, res) {
-    var user = req.body;
-    (0, user_1.create_user)(user);
-    res.send(user.username);
-});
-app.get('/user', cors(corsOptions), function (req, res) {
-    res.send((0, user_1.find_user)(req.query.username));
-});
 app.get('/message', cors(corsOptions), function (req, res) {
     res.setHeader('Content-Type', 'application/json');
     // Messages now need user objects in order to be correctly sent and received
-    if ((0, user_1.find_user)(req.query.sender))
-        res.send((0, message_1.get_message)(req.query.recipient, req.query.sender));
+    //if (find_user(req.query.sender)) 
+    res.send((0, message_1.get_message)(req.query.recipient, req.query.sender));
+});
+// User
+app.post('/user', cors(corsOptions), function (req, res) {
+    var user = req.body;
+    (0, user_1.create_user)(user);
+
+    res.sendStatus(200);
+
+});
+app.get('/user', cors(corsOptions), function (req, res) {
+    var user = (0, user_1.find_user)(req.query.username);
+    res.send(user);
 });
 app.listen(port, function () {
     console.log("Example app listening on port ${port}");
@@ -56,7 +62,7 @@ var options = {
         },
         servers: [
             {
-                url: "http://localhost:5000",
+                url: "http://localhost:".concat(port),
             },
         ],
     },

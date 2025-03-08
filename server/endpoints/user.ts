@@ -21,6 +21,8 @@ const users: ProbingHashtable<Username, User> = ph_empty(100, hash_fun);
  */
 export function create_user(user: User): User {
     ph_insert(users, user.username, user);
+    console.log(users);
+
     return user;
 }
 

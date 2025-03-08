@@ -4,11 +4,12 @@ const express = require("express"),
   swaggerUi = require("swagger-ui-express");
   
 import { type User } from '../types/user';
-import { type Message } from '../types/message'
-import { post_message, get_message } from './endpoints/message'
+import { type Message } from '../types/message';
+import { post_message, get_message } from './endpoints/message';
 import { create_user, find_user } from './endpoints/user';
 
 var cors = require('cors');
+
 
 var corsOptions = {
   origin: 'http://localhost:5173',
@@ -21,6 +22,7 @@ const port = 5000;
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(cors());
 
 
 app.get('/', function(req, res){
@@ -37,7 +39,7 @@ app.post('/message', cors(corsOptions), (req, res) => {
 app.get('/message', cors(corsOptions), (req, res) => {
   res.setHeader('Content-Type', 'application/json')
   // Messages now need user objects in order to be correctly sent and received
-  if (find_user(req.query.sender) )
+  //if (find_user(req.query.sender)) 
   res.send(get_message(req.query.recipient, req.query.sender));
 });
 
@@ -49,8 +51,10 @@ app.post('/user', cors(corsOptions), (req, res) => {
 });
 
 app.get('/user', cors(corsOptions), (req, res) => {
-  res.send(find_user(req.query.username));
+  const user = find_user(req.query.username);
+  res.send(user);
 });
+
 
 
 app.listen(port, () => {
@@ -78,7 +82,8 @@ const options = {
       },
       servers: [
         {
-          url: "http://localhost:5000",
+          url: `http://localhost:${port}`,
+
         },
       ],
     },
