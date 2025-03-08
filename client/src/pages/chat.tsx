@@ -3,22 +3,35 @@ import { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import { Link } from "react-router-dom";
 import { message } from "../types/message"
-import { encryptMessage } from '../helpers/cryptography';
+import { encryptMessage, decryptMessage } from '../helpers/cryptography';
 
 
 export function Chat() {
     const [messages, setMessages] = useState([]);
     const messageRef = useRef(null);
     //const location = useLocation();
+
+    console.log(messages);
     
+    const privateKey = localStorage.getItem("private_key");
+
     useEffect(() => {
-        axios.get('message', {params: {
+        axios.get('chat', {params: {
             user1: localStorage.getItem("recipient"),
             user2: localStorage.getItem("username")
         }})
         .then(function (response) {
-            setMessages(response.data);
-            //console.log(response.data);
+            const handleResponse = async () => {
+                for (let i = 0; i < response.data.length; i++) {
+                    console.log("Trying to decrypt:")
+                    console.log(response.data[i].content)
+                    response.data[i].content = await decryptMessage(privateKey, response.data[i].content)
+                }
+                
+                setMessages(response.data);
+            }
+
+            handleResponse();
         })
         .catch(function (error) {
             // handle error
@@ -37,6 +50,7 @@ export function Chat() {
         
         axios.post('message', 
             message(
+                await 
                 await encryptMessage(recipientPublicKey, messageRef.current.value), 
                 recipientUsername,
                 sender
@@ -61,7 +75,7 @@ export function Chat() {
             <h1>CHAT</h1>
             <h1>Logged in as {localStorage.getItem("username")}</h1>
 
-            {printMessages(messages)}
+            {printMessages(messages, privateKey)}
 
             <div id="chatPanel">
                 <input name="chat" type="text" placeholder={"Message "+localStorage.getItem("recipient")} ref={messageRef}/>
@@ -71,7 +85,7 @@ export function Chat() {
     )
 }
 
-function printMessages(messages) {
+function printMessages(messages, privateKey) {
     if(messages.length === 0) {
         return(<p>Zero messages found.</p>);
     } 

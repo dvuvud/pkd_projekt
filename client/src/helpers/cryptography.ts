@@ -90,14 +90,20 @@ export const decryptMessage = async (privateKeyPem, base64Ciphertext) => {
         ['decrypt']
     );
 
-    // decrypt the message
-    const decrypted = await crypto.subtle.decrypt(
-        { name: 'RSA-OAEP' },
-        privateKey,
-        Uint8Array.from(atob(base64Ciphertext), c => c.charCodeAt(0))
-    );
+    try{
+        // decrypt the message
+        const decrypted = await crypto.subtle.decrypt(
+            { name: 'RSA-OAEP' },
+            privateKey,
+            Uint8Array.from(atob(base64Ciphertext), c => c.charCodeAt(0))
+        );
 
-    return new TextDecoder().decode(decrypted);
+        return new TextDecoder().decode(decrypted);
+    }
+    catch (e) {
+        console.log(e);
+    }
+
 };
 
 /**
