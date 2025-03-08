@@ -10,7 +10,8 @@ export type Message = {
     content: string,
     recipient: Username,
     sender: Username,
-    timestamp: string
+    timestamp: number,
+    loaded: boolean
 }
 
 /**
@@ -26,6 +27,27 @@ export type Messages = Pair<Array<Message>, Array<Message>>
  */
 export function empty_messages(): Messages {
     return pair([], []);
+}
+
+/**
+ * Constructs a message object
+ * @param { string } content - the content of the message
+ * @param { Username } recipient - the recipient
+ * @param { Username } sender - the sender
+ * @param { number } timestamp - the time set by the server
+ * @param { boolean } loaded - is it loaded by user
+ * @returns { Array<Message> } of a users received messages
+ */
+export function message(content: string, recipient: Username, 
+                        sender: Username, timestamp: number = 0, 
+                        loaded: boolean = false): Message {
+    return {
+        content,
+        recipient,
+        sender,
+        timestamp,
+        loaded
+    };
 }
 
 /**
