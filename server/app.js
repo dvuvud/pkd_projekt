@@ -27,6 +27,11 @@ app.get('/message', cors(corsOptions), function (req, res) {
     // Messages now need user objects in order to be correctly sent and received
     res.send((0, message_1.get_message)(req.query.user1, req.query.user2));
 });
+app.get('/chat', cors(corsOptions), function (req, res) {
+    res.setHeader('Content-Type', 'application/json');
+    // Messages now need user objects in order to be correctly sent and received
+    res.send((0, message_1.load_chat)(req.query.user1, req.query.user2));
+});
 app.post('/user', cors(corsOptions), function (req, res) {
     var user = req.body;
     (0, user_1.create_user)(user);

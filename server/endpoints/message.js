@@ -50,6 +50,9 @@ function load_chat(user1, user2) {
         currentChat = (0, message_1.chat)(user1, user2, []);
     }
     else { }
+    currentChat.messages.forEach(function (message) {
+        message.loaded = true;
+    });
     return currentChat.messages;
 }
 /**
