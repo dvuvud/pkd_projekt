@@ -30,7 +30,6 @@ app.get('/', function(req, res){
 });
 
 
-// Message
 app.post('/message', cors(corsOptions), (req, res) => {
   // Messages now need user objects in order to be correctly sent and received
   post_message(req.body);
@@ -45,11 +44,10 @@ app.get('/message', cors(corsOptions), (req, res) => {
 });
 
 
-// User
 app.post('/user', cors(corsOptions), (req, res) => {
   const user: User = req.body;
   create_user(user);
-  res.sendStatus(200);
+  res.send(user.username);
 });
 
 app.get('/user', cors(corsOptions), (req, res) => {
@@ -85,6 +83,7 @@ const options = {
       servers: [
         {
           url: `http://localhost:${port}`,
+
         },
       ],
     },

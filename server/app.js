@@ -32,7 +32,9 @@ app.get('/message', cors(corsOptions), function (req, res) {
 app.post('/user', cors(corsOptions), function (req, res) {
     var user = req.body;
     (0, user_1.create_user)(user);
+
     res.sendStatus(200);
+
 });
 app.get('/user', cors(corsOptions), function (req, res) {
     var user = (0, user_1.find_user)(req.query.username);
