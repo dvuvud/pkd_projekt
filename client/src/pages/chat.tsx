@@ -2,7 +2,6 @@ import '../stylesheets/chat.css';
 import { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import { Link } from "react-router-dom";
-import { message as make_message } from "../../../types/message";
 import { encryptMessage } from '../helpers/cryptography';
 
 
