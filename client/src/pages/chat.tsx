@@ -2,6 +2,7 @@ import '../stylesheets/chat.css';
 import { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import { Link } from "react-router-dom";
+import { message } from "../types/message"
 import { encryptMessage } from '../helpers/cryptography';
 
 
@@ -25,7 +26,6 @@ export function Chat() {
         });
     }, []);
 
-
     const handleSubmit = async(event) => {
         const recipientPublicKey = localStorage.getItem("recipient_public_key");
         const recipientUsername = localStorage.getItem("recipient");
@@ -33,7 +33,7 @@ export function Chat() {
         event.preventDefault(); // Prevents page reload on pressing button. 
         
         axios.post('message', 
-            make_message(
+            message(
                 await encryptMessage(recipientPublicKey, messageRef.current.value), 
                 recipientUsername,
                 sender
@@ -51,7 +51,6 @@ export function Chat() {
         });
     }
     
-
     return (
         <>
             <Link to="/" onClick={()=>{localStorage.clear()}}>LOGOUT</Link>
@@ -68,7 +67,6 @@ export function Chat() {
         </>
     )
 }
-
 
 function printMessages(messages) {
     if(messages.length === 0) {
