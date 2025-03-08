@@ -39,7 +39,6 @@ app.post('/message', cors(corsOptions), (req, res) => {
 app.get('/message', cors(corsOptions), (req, res) => {
   res.setHeader('Content-Type', 'application/json')
   // Messages now need user objects in order to be correctly sent and received
-  //if (find_user(req.query.sender)) 
   res.send(get_message(req.query.recipient, req.query.sender));
 });
 
