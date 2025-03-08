@@ -42,6 +42,17 @@ app.get('/message', cors(corsOptions), (req, res) => {
 });
 
 
+app.post('/user', cors(corsOptions), (req, res) => {
+  const user: User = req.body;
+  create_user(user);
+  res.send(user.username);
+});
+
+app.get('/user', cors(corsOptions), (req, res) => {
+  res.send(find_user(req.query.username));
+});
+
+
 app.listen(port, () => {
   console.log("Example app listening on port ${port}")
 });
