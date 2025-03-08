@@ -41,12 +41,12 @@ export function chat(user1: Username, user2: Username, messages: Array<Message>)
  * @param { boolean } loaded - is it loaded by user
  * @returns { Array<Message> } of a users received messages
  */
-export function message(content: string, recipient: Username, 
+export function message(content_recipient: string, content_sender: string, recipient: Username, 
                         sender: Username, timestamp: number = 0, 
                         loaded: boolean = false): Message {
     return {
-        content_recipient: content,
-        content_sender: content,
+        content_recipient,
+        content_sender,
         recipient,
         sender,
         timestamp,

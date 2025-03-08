@@ -10,10 +10,9 @@ export function Chat() {
     const [messages, setMessages] = useState([]);
     const messageRef = useRef(null);
     //const location = useLocation();
-
-    console.log(messages);
-    
+   
     const privateKey = localStorage.getItem("private_key");
+    const username = localStorage.getItem("username");
 
     useEffect(() => {
         axios.get('chat', {params: {
@@ -22,13 +21,24 @@ export function Chat() {
         }})
         .then(function (response) {
             const handleResponse = async () => {
-                for (let i = 0; i < response.data.length; i++) {
-                    console.log("Trying to decrypt:")
-                    console.log(response.data[i].content)
-                    response.data[i].content = await decryptMessage(privateKey, response.data[i].content)
+                const newMessages = response.data;
+                for (let i = 0; i < newMessages.length; i++) {
+                    if(newMessages[i].sender === username){
+                        newMessages[i] = {
+                            ...newMessages[i],
+                            content: await decryptMessage(privateKey, response.data[i].content_sender)
+                        }
+                    }
+                    else{
+                        newMessages[i] = {
+                            ...newMessages[i],
+                            content: await decryptMessage(privateKey, response.data[i].content_recipient)
+                        }
+                    }
                 }
                 
-                setMessages(response.data);
+                setMessages(newMessages);
+                console.log(newMessages)
             }
 
             handleResponse();
@@ -46,12 +56,13 @@ export function Chat() {
         const recipientPublicKey = localStorage.getItem("recipient_public_key");
         const recipientUsername = localStorage.getItem("recipient");
         const sender = localStorage.getItem("username");
+        const senderPublicKey = localStorage.getItem("public_key")
         event.preventDefault(); // Prevents page reload on pressing button. 
         
         axios.post('message', 
-            message(
-                await 
+            message( 
                 await encryptMessage(recipientPublicKey, messageRef.current.value), 
+                await encryptMessage(senderPublicKey, messageRef.current.value),
                 recipientUsername,
                 sender
             )
