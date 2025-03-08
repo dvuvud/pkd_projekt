@@ -1,10 +1,16 @@
-import { User, Username } from '../../types/user';
-import { Message, Messages, empty_messages, store_sent_message, store_received_message } from '../../types/message';
-import { HashFunction, ProbingHashtable, ph_delete, ph_empty, ph_insert, ph_lookup } from '../../types/hashtables';
+import { 
+    User, Username 
+} from '../../types/user';
+import { 
+    Message, Chat, chat 
+} from '../../types/message';
+import { 
+    HashFunction, ProbingHashtable, ph_delete,
+    ph_empty, ph_insert, ph_lookup 
+} from '../../types/hashtables';
+import { filter } from '../../types/list';
 
 const hash_fun: HashFunction<Username> = (key: string) => key.length;
-// A hash table storing a users messages by their userID
-const usr_messages: ProbingHashtable<Username, Messages> = ph_empty(100, hash_fun);
 // A hash table storing all users by userID
 const users: ProbingHashtable<Username, User> = ph_empty(100, hash_fun);
 
@@ -15,7 +21,6 @@ const users: ProbingHashtable<Username, User> = ph_empty(100, hash_fun);
  */
 export function create_user(user: User): User {
     ph_insert(users, user.username, user);
-    ph_insert(usr_messages, user.username, empty_messages());
     return user;
 }
 
@@ -28,39 +33,4 @@ export function create_user(user: User): User {
 export function find_user(username: Username): User | null {
     const user = ph_lookup(users, username);
     return user === undefined ? null : user;
-}
-
-/**
- * Returns the sent- and received messages of a user
- * @param { User } user - the user to get messages from
- * @returns { Messages } of the given user.
- * If user is not found an empty messages object will be returned
- */
-export function get_usr_messages(user: Username): Messages {
-    const result = ph_lookup(usr_messages, user);
-    return result !== undefined ? result : empty_messages();
-}
-
-/**
- * Inserts a message into a users received messages
- * @param { Username } username - the user that receives the message
- * @param { Message } message - of the given user
- */
-export function insert_received_message(username: Username, message: Message): void {
-    const users_messages = ph_lookup(usr_messages, username);
-    if (users_messages !== undefined) {
-        store_received_message(users_messages, message);
-    } else {}
-}
-
-/**
- * Inserts a message into a users sent messages
- * @param { Username } username - the user that sent the message
- * @param { Message } message - of the given user
- */
-export function insert_sent_message(username: Username, message: Message): void {
-    const users_messages = ph_lookup(usr_messages, username);
-    if (users_messages !== undefined) {
-        store_sent_message(users_messages, message);
-    } else {}
 }
