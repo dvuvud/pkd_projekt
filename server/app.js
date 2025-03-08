@@ -16,25 +16,21 @@ app.use(cors());
 app.get('/', function (req, res) {
     res.send('Server working!');
 });
-// Message
 app.post('/message', cors(corsOptions), function (req, res) {
     // Messages now need user objects in order to be correctly sent and received
     (0, message_1.post_message)(req.body);
     res.sendStatus(200);
+    console.log();
 });
 app.get('/message', cors(corsOptions), function (req, res) {
     res.setHeader('Content-Type', 'application/json');
     // Messages now need user objects in order to be correctly sent and received
-    //if (find_user(req.query.sender)) 
-    res.send((0, message_1.get_message)(req.query.recipient, req.query.sender));
+    res.send((0, message_1.get_message)(req.query.user1, req.query.user2));
 });
-// User
 app.post('/user', cors(corsOptions), function (req, res) {
     var user = req.body;
     (0, user_1.create_user)(user);
-
-    res.sendStatus(200);
-
+    res.send(user.username);
 });
 app.get('/user', cors(corsOptions), function (req, res) {
     var user = (0, user_1.find_user)(req.query.username);

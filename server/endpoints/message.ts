@@ -17,8 +17,9 @@ export function post_message(message: Message): void {
         currentChat = chat(message.sender, message.recipient, []);
         chats.push(currentChat);
     }
-
+    
     currentChat.messages.push(message);
+    console.log(currentChat);
 }
 
 /**
@@ -55,6 +56,10 @@ export function load_chat(user1: Username, user2: Username): Array<Message> {
         currentChat = chat(user1, user2, []);
     } else {}
 
+    currentChat.messages.forEach(message => {
+        message.loaded = true;
+    });
+    
     return currentChat.messages;
 }
 

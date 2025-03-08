@@ -12,7 +12,10 @@ export function Chat() {
     //const location = useLocation();
     
     useEffect(() => {
-        axios.get('message')
+        axios.get('message', {params: {
+            user1: localStorage.getItem("recipient"),
+            user2: localStorage.getItem("username")
+        }})
         .then(function (response) {
             setMessages(response.data);
             //console.log(response.data);
