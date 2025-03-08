@@ -8,8 +8,6 @@ const usr_messages: ProbingHashtable<Username, Messages> = ph_empty(100, hash_fu
 // A hash table storing all users by userID
 const users: ProbingHashtable<Username, User> = ph_empty(100, hash_fun);
 
-let number_of_users: number = 0;
-
 /**
  * Constructs a user
  * @param { User } user - the user to be created
@@ -18,7 +16,6 @@ let number_of_users: number = 0;
 export function create_user(user: User): User {
     ph_insert(users, user.username, user);
     ph_insert(usr_messages, user.username, empty_messages());
-    number_of_users = number_of_users + 1;
     return user;
 }
 
@@ -47,7 +44,7 @@ export function get_usr_messages(user: Username): Messages {
 /**
  * Inserts a message into a users received messages
  * @param { Username } username - the user that receives the message
- * @returns { Messages } of the given user
+ * @param { Message } message - of the given user
  */
 export function insert_received_message(username: Username, message: Message): void {
     const users_messages = ph_lookup(usr_messages, username);
@@ -59,7 +56,7 @@ export function insert_received_message(username: Username, message: Message): v
 /**
  * Inserts a message into a users sent messages
  * @param { Username } username - the user that sent the message
- * @returns { Messages } of the given user
+ * @param { Message } message - of the given user
  */
 export function insert_sent_message(username: Username, message: Message): void {
     const users_messages = ph_lookup(usr_messages, username);

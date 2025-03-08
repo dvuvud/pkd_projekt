@@ -32,6 +32,7 @@ export function get_message(recipient: Username, sender: Username): Array<Messag
 }
 
 // Will be added later and be used to load a users received and sent messages for a given chat
+// User this function to load messages even if they have the 'loaded' field set to true
 export function load_chat() {
 
 }
