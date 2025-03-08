@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 var express = require("express"), bodyParser = require("body-parser"), swaggerJsdoc = require("swagger-jsdoc"), swaggerUi = require("swagger-ui-express");
 var message_1 = require("./endpoints/message");
+var user_1 = require("./endpoints/user");
 var cors = require('cors');
 var corsOptions = {
     origin: 'http://localhost:5173',
@@ -15,12 +16,23 @@ app.get('/', function (req, res) {
     res.send('Server working!');
 });
 app.post('/message', cors(corsOptions), function (req, res) {
+    // Messages now need user objects in order to be correctly sent and received
     (0, message_1.post_message)(req.body);
     res.sendStatus(200);
 });
+app.post('/user', cors(corsOptions), function (req, res) {
+    var user = req.body;
+    (0, user_1.create_user)(user);
+    res.sendStatus(user.username);
+});
+app.get('/user', cors(corsOptions), function (req, res) {
+    res.send((0, user_1.find_user)(req.query.username));
+});
 app.get('/message', cors(corsOptions), function (req, res) {
     res.setHeader('Content-Type', 'application/json');
-    res.send((0, message_1.get_message)());
+    // Messages now need user objects in order to be correctly sent and received
+    if ((0, user_1.find_user)(req.query.sender))
+        res.send((0, message_1.get_message)(req.query.recipient, req.query.sender));
 });
 app.listen(port, function () {
     console.log("Example app listening on port ${port}");
