@@ -28,21 +28,11 @@ app.get('/', function(req, res){
 });
 
 
-// User
+// Message
 app.post('/message', cors(corsOptions), (req, res) => {
   // Messages now need user objects in order to be correctly sent and received
   post_message(req.body);
   res.sendStatus(200);
-});
-
-app.post('/user', cors(corsOptions), (req, res) => {
-  const user: User = req.body;
-  create_user(user);
-  res.send(user.username);
-});
-
-app.get('/user', cors(corsOptions), (req, res) => {
-  res.send(find_user(req.query.username));
 });
 
 app.get('/message', cors(corsOptions), (req, res) => {
