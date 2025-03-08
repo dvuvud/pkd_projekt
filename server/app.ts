@@ -5,7 +5,7 @@ const express = require("express"),
   
 import { type User } from '../types/user';
 import { type Message } from '../types/message';
-import { post_message, get_message } from './endpoints/message';
+import { post_message, get_message, load_chat } from './endpoints/message';
 import { create_user, find_user } from './endpoints/user';
 
 var cors = require('cors');
@@ -41,6 +41,12 @@ app.get('/message', cors(corsOptions), (req, res) => {
   res.setHeader('Content-Type', 'application/json')
   // Messages now need user objects in order to be correctly sent and received
   res.send(get_message(req.query.user1, req.query.user2));
+});
+
+app.get('/chat', cors(corsOptions), (req, res) => {
+  res.setHeader('Content-Type', 'application/json')
+  // Messages now need user objects in order to be correctly sent and received
+  res.send(load_chat(req.query.user1, req.query.user2));
 });
 
 
