@@ -23,7 +23,8 @@ export function get_message(recipient: Username, sender: Username): Array<Messag
     const messages: Array<Message> = received_messages(get_usr_messages(recipient));
     const result: Array<Message> = [];
     messages.forEach(message => {
-        if (message.sender === sender) {
+        if (message.sender === sender && message.loaded === false) {
+            message.loaded = true;
             result.push(message);
         }
     })
