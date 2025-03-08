@@ -27,11 +27,20 @@ app.get('/', function(req, res){
   res.send('Server working!');
 });
 
+
 app.post('/message', cors(corsOptions), (req, res) => {
   // Messages now need user objects in order to be correctly sent and received
   post_message(req.body);
   res.sendStatus(200);
 });
+
+app.get('/message', cors(corsOptions), (req, res) => {
+  res.setHeader('Content-Type', 'application/json')
+  // Messages now need user objects in order to be correctly sent and received
+  if (find_user(req.query.sender) )
+  res.send(get_message(req.query.recipient, req.query.sender));
+});
+
 
 app.post('/user', cors(corsOptions), (req, res) => {
   const user: User = req.body;
@@ -41,13 +50,6 @@ app.post('/user', cors(corsOptions), (req, res) => {
 
 app.get('/user', cors(corsOptions), (req, res) => {
   res.send(find_user(req.query.username));
-});
-
-app.get('/message', cors(corsOptions), (req, res) => {
-  res.setHeader('Content-Type', 'application/json')
-  // Messages now need user objects in order to be correctly sent and received
-  if (find_user(req.query.sender) )
-  res.send(get_message(req.query.recipient, req.query.sender));
 });
 
 
