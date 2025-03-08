@@ -1,6 +1,9 @@
 import { User, Username } from '../../types/user';
-import { Chat, Message } from '../../types/message';
-import { find_user, get_chat } from './user';
+import { Chat, Message, chat } from '../../types/message';
+import { find_user } from './user';
+
+// Stores all chats across all users
+const chats: Array<Chat> = [];
 
 /**
  * Receives a message from post and inserts said message
@@ -11,12 +14,7 @@ export function post_message(message: Message): void {
     let currentChat = get_chat(message.sender, message.recipient);
 
     if(currentChat === null) {
-        currentChat = {
-            user1: message.sender,
-            user2: message.recipient,
-            messages: []
-        }
-
+        currentChat = chat(message.sender, message.recipient, []);
         chats.push(currentChat);
     }
 
@@ -50,4 +48,32 @@ export function load_chat(user: Username, recipient: Username): Array<Message> {
         return [];
     } else {}
     return chat.messages;
+}
+
+/**
+ * Returns the chat between two users
+ * @param { Username } user1
+ * @param { Username } user2
+ * @returns { Chat | null } between the two users
+ */
+export function get_chat(user1: Username, user2: Username): Chat | null {
+    const user1_chats = filter_chats(chats, user1);
+    const mutual_chat = filter_chats(user1_chats, user2);
+    return mutual_chat[0] === undefined ? null : mutual_chat[0];
+}
+
+/**
+ * Filters for all the chats one user is included in
+ * @param { Username } user - the logged in user
+ * @param { Array<Chat> } chats - the chats to filter
+ * @returns { Array<Chat> } between the two users
+ */
+function filter_chats(chats: Array<Chat>, user: Username): Array<Chat> {
+    const result: Array<Chat> = [];
+    chats.forEach(chat_object => {
+        if (chat_object.user1 === user || chat_object.user2 === user) {
+            result.push(chat_object);
+        } else {}
+    });
+    return result;
 }

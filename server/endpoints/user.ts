@@ -11,8 +11,6 @@ import {
 import { filter } from '../../types/list';
 
 const hash_fun: HashFunction<Username> = (key: string) => key.length;
-// Stores all chats across all users
-const chats: Array<Chat> = [];
 // A hash table storing all users by userID
 const users: ProbingHashtable<Username, User> = ph_empty(100, hash_fun);
 
@@ -35,32 +33,4 @@ export function create_user(user: User): User {
 export function find_user(username: Username): User | null {
     const user = ph_lookup(users, username);
     return user === undefined ? null : user;
-}
-
-/**
- * Returns the chat between two users
- * @param { Username } user1
- * @param { Username } user2
- * @returns { Chat | null } between the two users
- */
-export function get_chat(user1: Username, user2: Username): Chat | null {
-    const user1_chats = filter_chats(chats, user1);
-    const mutual_chat = filter_chats(user1_chats, user2);
-    return mutual_chat[0] === undefined ? null : mutual_chat[0];
-}
-
-/**
- * Filters for all the chats one user is included in
- * @param { Username } user - the logged in user
- * @param { Array<Chat> } chats - the chats to filter
- * @returns { Array<Chat> } between the two users
- */
-function filter_chats(chats: Array<Chat>, user: Username): Array<Chat> {
-    const result: Array<Chat> = [];
-    chats.forEach(chat_object => {
-        if (chat_object.user1 === user || chat_object.user2 === user) {
-            result.push(chat_object);
-        } else {}
-    });
-    return result;
 }
