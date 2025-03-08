@@ -11,21 +11,18 @@ export function Contacts() {
     const handleSubmit = (event): void => {
         event.preventDefault(); // Prevents page reload on pressing button. 
         
-        axios.get('http://localhost:5000/user', {params: {
-            username: localStorage.getItem("username")
+        axios.get("user", {params: {
+            username: usernameRef.current.value
         }})
         .then(function (response) {
             //console.log(response.data);
-            localStorage.setItem("recipient", response.data.username); // CHANGE TO REAL RECIPIENT
-            localStorage.setItem("recipient", response.data.publicKey); 
+            localStorage.setItem("recipient", response.data.username); 
+            localStorage.setItem("recipient_public_key", response.data.publicKey); 
             navigate("/chat");
             // WHAT TO DO WITH USER DATA ?!?!?!?!?!?!?!?!?!?!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         })
         .catch(function (error) {
             // handle error
-            console.log(error);
-            localStorage.setItem("recipient", "PLACEHOLDER"); // CHANGE TO REAL RECIPIENT
-            navigate("/chat");
         })
         .finally(function () {
             // always executed

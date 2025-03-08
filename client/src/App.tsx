@@ -3,6 +3,8 @@ import { Login } from './pages/login';
 import { Chat } from './pages/chat';
 import { User } from '../../types/user';
 import { Contacts } from './pages/contacts';
+import axios from 'axios';
+import { serverURL } from './helpers/global_variables';
 
 import "./stylesheets/App.css";
 import "./stylesheets/login.css";
@@ -12,7 +14,7 @@ export var userData: User;
 
 
 function App() {
-  
+  axios.defaults.baseURL = serverURL;
 
   return (
     <>

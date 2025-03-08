@@ -1,15 +1,18 @@
 import '../stylesheets/chat.css';
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import { Link } from "react-router-dom";
+import { message as make_message } from "../../../types/message";
+import { encryptMessage } from '../helpers/cryptography';
 
 
 export function Chat() {
     const [messages, setMessages] = useState([]);
+    const messageRef = useRef(null);
     //const location = useLocation();
     
     useEffect(() => {
-        axios.get('http://localhost:5000/message')
+        axios.get('message')
         .then(function (response) {
             setMessages(response.data);
             //console.log(response.data);
@@ -24,14 +27,21 @@ export function Chat() {
     }, []);
 
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async(event) => {
+        const recipientPublicKey = localStorage.getItem("recipient_public_key");
+        const recipientUsername = localStorage.getItem("recipient");
+        const sender = localStorage.getItem("username");
         event.preventDefault(); // Prevents page reload on pressing button. 
-        /*
-        axios.post('http://localhost:5000/message', {
-            // PARAMETERS TO SEND
-        })
+        
+        axios.post('message', 
+            make_message(
+                await encryptMessage(recipientPublicKey, messageRef.current.value), 
+                recipientUsername,
+                sender
+            )
+        )
         .then(function (response) {
-            //console.log(response.data);
+            console.log(response.status);
         })
         .catch(function (error) {
             // handle error
@@ -40,7 +50,6 @@ export function Chat() {
         .finally(function () {
             // always executed
         });
-        */
     }
     
 
@@ -54,7 +63,7 @@ export function Chat() {
             {printMessages(messages)}
 
             <div id="chatPanel">
-                <input name="username" type="text" placeholder={"Message "+localStorage.getItem("recipient")}/>
+                <input name="chat" type="text" placeholder={"Message "+localStorage.getItem("recipient")} ref={messageRef}/>
                 <button type="submit" onClick={handleSubmit}>Send</button>
             </div>
         </>
