@@ -11,7 +11,7 @@ const chats: Array<Chat> = [];
  * @param { Message } message
  */
 export function post_message(message: Message): void {
-    let currentChat = get_chat(message.sender, message.recipient);
+    let currentChat = find_chat(message.sender, message.recipient);
 
     if(currentChat === null) {
         currentChat = chat(message.sender, message.recipient, []);
@@ -27,27 +27,35 @@ export function post_message(message: Message): void {
  * @param { Username } recipient - the user being chatted with
  * @returns { Array<Message> } - returns an array of the received messages of the given user
  */
-export function get_message(user: Username, recipient: Username): Array<Message> {
-    const chat = get_chat(user, recipient);
+export function get_message(user1: Username, user2: Username): Array<Message> {
+    let currentChat = find_chat(user1, user2);
+
+    if (currentChat === null) {
+        currentChat = chat(user1, user2, []);
+    } else {}
+
     const result: Array<Message> = [];
-    chat?.messages.forEach(message => {
+
+    currentChat.messages.forEach(message => {
         if (message.loaded === false) {
             message.loaded = true;
             result.push(message);
         }
     })
+
     return result;
 }
 
 // Will be added later and be used to load a users received and sent messages for a given chat
 // User this function to load messages even if they have the 'loaded' field set to true
-export function load_chat(user: Username, recipient: Username): Array<Message> {
-    const chat = get_chat(user, recipient);
-    if (chat === null) {
-        
-        return [];
+export function load_chat(user1: Username, user2: Username): Array<Message> {
+    let currentChat = find_chat(user1, user2);
+
+    if (currentChat === null) {
+        currentChat = chat(user1, user2, []);
     } else {}
-    return chat.messages;
+
+    return currentChat.messages;
 }
 
 /**
@@ -56,7 +64,7 @@ export function load_chat(user: Username, recipient: Username): Array<Message> {
  * @param { Username } user2
  * @returns { Chat | null } between the two users
  */
-export function get_chat(user1: Username, user2: Username): Chat | null {
+export function find_chat(user1: Username, user2: Username): Chat | null {
     const user1_chats = filter_chats(chats, user1);
     const mutual_chat = filter_chats(user1_chats, user2);
     return mutual_chat[0] === undefined ? null : mutual_chat[0];
@@ -70,10 +78,12 @@ export function get_chat(user1: Username, user2: Username): Chat | null {
  */
 function filter_chats(chats: Array<Chat>, user: Username): Array<Chat> {
     const result: Array<Chat> = [];
+
     chats.forEach(chat_object => {
         if (chat_object.user1 === user || chat_object.user2 === user) {
             result.push(chat_object);
         } else {}
     });
+    
     return result;
 }
