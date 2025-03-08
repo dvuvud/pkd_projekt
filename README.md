@@ -15,7 +15,7 @@ The server is now listening on port 5000. Requests can be made in any way you us
 <h1>Client (React + Vite)</h1>
 
 <ol>
-  <li>In <code>.\client</code> , run <code>npm install</code>
+  <li>Inside <code>/client</code>, run <code>npm install</code>
   <li>Launch the app by running <code>npm run dev</code></li>
   <li>Browse the app by clicking the link in the terminal, <code>http://localhost:xxxx</code></li>
   <li>Typescript is compiled automatically after the client is started; no <code>tsc ...; node ...</code> needed. To compile, just save the changes in <code>App.tsx</code>. </li>
