@@ -8,7 +8,19 @@ import { find_user, get_chat } from './user';
  * @param { Message } message
  */
 export function post_message(message: Message): void {
-    get_chat(message.sender, message.recipient)?.messages.push(message);
+    let currentChat: Chat | null = get_chat(message.sender, message.recipient);
+
+    if(currentChat === null) {
+        currentChat = {
+            user1: message.sender,
+            user2: message.recipient,
+            messages: []
+        }
+
+        chats.push(currentChat);
+    }
+
+    currentChat.messages.push(message);
 }
 
 /**
