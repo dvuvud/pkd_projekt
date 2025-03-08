@@ -1,7 +1,7 @@
 import { HashRouter as Router, Routes, Route } from 'react-router-dom';
 import { Login } from './pages/login';
 import { Chat } from './pages/chat';
-import { User } from '../../../server/types/user';
+import { User } from '../../types/user';
 import { Contacts } from './pages/contacts';
 
 import "./stylesheets/App.css";

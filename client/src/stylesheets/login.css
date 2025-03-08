@@ -31,11 +31,17 @@
 }
 
 
-#loginPanel button {
+#loginPanel .loginButton  {
     padding: 0.2em;
     font-size: 1.2em;
     background-color: #fbe32e;
     border: 0;
     border-radius: 0.1em;
 }
-
+#loginPanel .registerButton  {
+    padding: 0.2em;
+    font-size: 1.2em;
+    background-color: #fbe32e;
+    border: 0;
+    border-radius: 0.1em;
+}

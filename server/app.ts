@@ -27,6 +27,8 @@ app.get('/', function(req, res){
   res.send('Server working!');
 });
 
+
+// User
 app.post('/message', cors(corsOptions), (req, res) => {
   // Messages now need user objects in order to be correctly sent and received
   post_message(req.body);
@@ -50,9 +52,22 @@ app.get('/message', cors(corsOptions), (req, res) => {
   res.send(get_message(req.query.recipient, req.query.sender));
 });
 
+
+// User
+app.post('/user', cors(corsOptions), (req, res) => {
+  const user: User = req.body;
+  create_user(user);
+  res.sendStatus(200);
+});
+
+app.get('/user', cors(corsOptions), (req, res) => {
+  res.send(find_user(req.query.username));
+});
+
 app.listen(port, () => {
   console.log("Example app listening on port ${port}")
 });
+
 
 const options = {
     definition: {

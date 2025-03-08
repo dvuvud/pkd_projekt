@@ -1,7 +1,7 @@
 import "../stylesheets/contacts.css";
 import { useEffect, useRef } from 'react';
 import { Link, useNavigate } from "react-router-dom";
-import { generateKeyPair } from '../helpers/cryptography'
+import { generateKeyPair } from '../helpers/cryptography';
 import axios from 'axios';
 
 export function Contacts() {
@@ -10,14 +10,16 @@ export function Contacts() {
 
     const handleSubmit = (event): void => {
         event.preventDefault(); // Prevents page reload on pressing button. 
-        
-        axios.get('http://localhost:5000/user', {params: {
-            username: localStorage.getItem("username")
-        }})
+       
+        axios.get('http://localhost:5000/user', {
+            params:{
+                username: {usernameRef} 
+            }
+        })
         .then(function (response) {
-            //console.log(response.data);
+            console.log(response.data);
             localStorage.setItem("recipient", response.data.username); // CHANGE TO REAL RECIPIENT
-            localStorage.setItem("recipient", response.data.publicKey); 
+            localStorage.setItem("recipientPublicKey", response.data.publickey)
             navigate("/chat");
             // WHAT TO DO WITH USER DATA ?!?!?!?!?!?!?!?!?!?!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         })
