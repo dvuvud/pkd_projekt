@@ -1,10 +1,17 @@
-import { User, Username } from '../../types/user';
-import { Message, Messages, empty_messages, store_sent_message, store_received_message } from '../../types/message';
-import { HashFunction, ProbingHashtable, ph_delete, ph_empty, ph_insert, ph_lookup } from '../../types/hashtables';
+import { 
+    User, Username 
+} from '../../types/user';
+import { 
+    Message, Chat, chat 
+} from '../../types/message';
+import { 
+    HashFunction, ProbingHashtable, ph_delete,
+    ph_empty, ph_insert, ph_lookup 
+} from '../../types/hashtables';
 
 const hash_fun: HashFunction<Username> = (key: string) => key.length;
-// A hash table storing a users messages by their userID
-const usr_messages: ProbingHashtable<Username, Messages> = ph_empty(100, hash_fun);
+// Stores all chats across all users
+const chats: Array<Chat> = [];
 // A hash table storing all users by userID
 const users: ProbingHashtable<Username, User> = ph_empty(100, hash_fun);
 
@@ -15,7 +22,7 @@ const users: ProbingHashtable<Username, User> = ph_empty(100, hash_fun);
  */
 export function create_user(user: User): User {
     ph_insert(users, user.username, user);
-    ph_insert(usr_messages, user.username, empty_messages());
+    ph_insert(user_chats_table, user.username, []);
     return user;
 }
 
@@ -31,36 +38,31 @@ export function find_user(username: Username): User | null {
 }
 
 /**
- * Returns the sent- and received messages of a user
- * @param { User } user - the user to get messages from
- * @returns { Messages } of the given user.
- * If user is not found an empty messages object will be returned
+ * Returns the chat between two users
+ * @param { Username } user1
+ * @param { Username } user2
+ * @returns { Chat | null } between the two users
  */
-export function get_usr_messages(user: Username): Messages {
-    const result = ph_lookup(usr_messages, user);
-    return result !== undefined ? result : empty_messages();
+export function get_chat(user1: Username, user2: Username): Chat | null {
+    chats.forEach(chat_object => {
+        if (chat_object.user1 === user1) {
+            return chat_object;
+        } else {}
+    });
+    return null;
 }
 
 /**
- * Inserts a message into a users received messages
- * @param { Username } username - the user that receives the message
- * @param { Message } message - of the given user
+ * Filters for all the chats one user is included in
+ * @param { Username } user - the logged in user
+ * @returns { Array<Chat> } between the two users
  */
-export function insert_received_message(username: Username, message: Message): void {
-    const users_messages = ph_lookup(usr_messages, username);
-    if (users_messages !== undefined) {
-        store_received_message(users_messages, message);
-    } else {}
-}
-
-/**
- * Inserts a message into a users sent messages
- * @param { Username } username - the user that sent the message
- * @param { Message } message - of the given user
- */
-export function insert_sent_message(username: Username, message: Message): void {
-    const users_messages = ph_lookup(usr_messages, username);
-    if (users_messages !== undefined) {
-        store_sent_message(users_messages, message);
-    } else {}
+export function filter_chats(user: Username): Array<Chat> {
+    const result = [];
+    chats.forEach(chat_object => {
+        if (chat_object.user1 === user || chat_object.user2 === user) {
+            result.push(chat_object);
+        } else {}
+    });
+    return result;
 }

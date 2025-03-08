@@ -9,7 +9,7 @@ var corsOptions = {
     optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
 };
 var app = express();
-var port = 5001;
+var port = 5000;
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.get('/', function (req, res) {
@@ -23,7 +23,7 @@ app.post('/message', cors(corsOptions), function (req, res) {
 app.post('/user', cors(corsOptions), function (req, res) {
     var user = req.body;
     (0, user_1.create_user)(user);
-    res.sendStatus(user.username);
+    res.send(user.username);
 });
 app.get('/user', cors(corsOptions), function (req, res) {
     res.send((0, user_1.find_user)(req.query.username));
