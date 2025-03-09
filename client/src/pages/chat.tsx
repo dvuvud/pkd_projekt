@@ -127,16 +127,31 @@ export function Chat() {
 
     return (
         <>
-            <Link to="/" onClick={()=>{localStorage.clear()}}>LOGOUT</Link>
-            <Link to="/contacts">CONTACTS</Link>
-            <h1>CHAT</h1>
-            <h1>Logged in as {localStorage.getItem("username")}</h1>
+            <header>
+                <nav>
+                    <h1><Link to="/">Cryptalk</Link></h1>
 
-            {printMessages(messages)}
+                    <ul>
+                        <li><Link to="/contacts">CONTACTS</Link></li>
+                        <li><Link to="/" onClick={()=>{localStorage.clear()}}>LOGOUT</Link></li>
+                    </ul>
+                </nav>
+            </header>
+            
+            <div className="chatInfo">
+                <h2>Logged in as  {username}</h2>
+                <p>Chatting with {localStorage.getItem("recipient")}</p>
+            </div>
+
+            <div className='scrollbar'>
+                <div className='chatContainer'>
+                    {printMessages(messages)}
+                </div>
+            </div>
 
             <div id="chatPanel">
-                <input name="chat" type="text" placeholder={"Message "+localStorage.getItem("recipient")} ref={messageRef}/>
-                <button type="submit" onClick={handleSubmit}>Send</button>
+                    <input name="chat" type="text" placeholder={"Message "+localStorage.getItem("recipient")} ref={messageRef}/>
+                    <button type="submit" onClick={handleSubmit}>Send</button>
             </div>
         </>
     )
