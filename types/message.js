@@ -18,11 +18,12 @@ function chat(user1, user2, messages) {
  * @param { boolean } loaded - is it loaded by user
  * @returns { Array<Message> } of a users received messages
  */
-function message(content, recipient, sender, timestamp, loaded) {
+function message(content_recipient, content_sender, recipient, sender, timestamp, loaded) {
     if (timestamp === void 0) { timestamp = 0; }
     if (loaded === void 0) { loaded = false; }
     return {
-        content: content,
+        content_recipient: content_recipient,
+        content_sender: content_sender,
         recipient: recipient,
         sender: sender,
         timestamp: timestamp,

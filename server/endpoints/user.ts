@@ -13,7 +13,7 @@ import { filter } from '../../types/list';
 function simpleHash(str: string): number {
     let hash = 0;
     for (let i = 0; i < str.length; i++) {
-        hash += str.charCodeAt(i);
+        hash += str.charCodeAt(i); 
     }
     return hash % 32; // Modulo 32 is the range
 }

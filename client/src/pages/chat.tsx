@@ -11,8 +11,8 @@ export function Chat() {
     const messageRef = useRef(null);
     //const location = useLocation();
    
-    const privateKey = localStorage.getItem("private_key");
-    const username = localStorage.getItem("username");
+    const privateKey = localStorage.getItem("private_key"); 
+    const username = localStorage.getItem("username"); 
 
     useEffect(() => {
         axios.get('chat', {params: {
@@ -20,43 +20,36 @@ export function Chat() {
             user2: localStorage.getItem("username")
         }})
         .then(function (response) {
-            const handleResponse = async () => {
-                const newMessages = response.data;
-                for (let i = 0; i < newMessages.length; i++) {
-                    if(newMessages[i].sender === username){
-                        newMessages[i] = {
-                            ...newMessages[i],
-                            content: await decryptMessage(privateKey, response.data[i].content_sender)
-                        }
-                    }
-                    else{
-                        newMessages[i] = {
-                            ...newMessages[i],
-                            content: await decryptMessage(privateKey, response.data[i].content_recipient)
-                        }
-                    }
-                }
-                
-                setMessages(newMessages);
-                console.log(newMessages)
-            }
-
-            handleResponse();
+            processMessages(response, username, privateKey);
         })
         .catch(function (error) {
             // handle error
             console.log(error);
-        })
-        .finally(function () {
-            // always executed
         });
+
+        setInterval(() => {  
+            axios.get('message', {params: {
+                user1: localStorage.getItem("recipient"),
+                user2: localStorage.getItem("username")
+            }})
+            .then(function (response) {
+                processMessages(response, username, privateKey);
+            })
+            .catch(function (error) {
+                // handle error
+                console.log(error);
+            });
+        }, 1000);
+        //return () => clearInterval(interval);
+
     }, []);
 
     const handleSubmit = async(event) => {
-        const recipientPublicKey = localStorage.getItem("recipient_public_key");
         const recipientUsername = localStorage.getItem("recipient");
+        const recipientPublicKey = localStorage.getItem("recipient_public_key");
         const sender = localStorage.getItem("username");
         const senderPublicKey = localStorage.getItem("public_key")
+
         event.preventDefault(); // Prevents page reload on pressing button. 
         
         axios.post('message', 
@@ -78,6 +71,34 @@ export function Chat() {
             // always executed
         });
     }
+
+
+    function processMessages(response, username, privateKey) {
+        const handleResponse = async () => {
+            const messagesCopy = [...messages];
+            const newMessages = response.data;
+            for (let i = 0; i < newMessages.length; i++) {
+                if(newMessages[i].sender === username){
+                    newMessages[i] = {
+                        ...newMessages[i],
+                        content: await decryptMessage(privateKey, response.data[i].content_sender)
+                    }
+                }
+                else{
+                    newMessages[i] = {
+                        ...newMessages[i],
+                        content: await decryptMessage(privateKey, response.data[i].content_recipient)
+                    }
+                }
+            }
+            
+            setMessages(messagesCopy.concat(newMessages));
+            console.log(newMessages);
+        }
+    
+        handleResponse();
+    }
+
     
     return (
         <>
@@ -86,7 +107,7 @@ export function Chat() {
             <h1>CHAT</h1>
             <h1>Logged in as {localStorage.getItem("username")}</h1>
 
-            {printMessages(messages, privateKey)}
+            {printMessages(messages)}
 
             <div id="chatPanel">
                 <input name="chat" type="text" placeholder={"Message "+localStorage.getItem("recipient")} ref={messageRef}/>
@@ -96,7 +117,7 @@ export function Chat() {
     )
 }
 
-function printMessages(messages, privateKey) {
+function printMessages(messages) {
     if(messages.length === 0) {
         return(<p>Zero messages found.</p>);
     } 
@@ -116,3 +137,4 @@ function printMessages(messages, privateKey) {
         </div>
     );
 }
+
