@@ -10,7 +10,15 @@ import {
 } from '../../types/hashtables';
 import { filter } from '../../types/list';
 
-const hash_fun: HashFunction<Username> = (key: string) => key.length;
+function simpleHash(str: string): number {
+    let hash = 0;
+    for (let i = 0; i < str.length; i++) {
+        hash += str.charCodeAt(i);
+    }
+    return hash % 32; // Modulo 32 is the range
+}
+
+const hash_fun: HashFunction<Username> = (key: string) => simpleHash(key);
 // A hash table storing all users by userID
 const users: ProbingHashtable<Username, User> = ph_empty(100, hash_fun);
 
