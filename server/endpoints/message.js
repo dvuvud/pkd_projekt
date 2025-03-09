@@ -37,11 +37,13 @@ function get_message(user1, user2) {
     else { }
     var result = [];
     currentChat.messages.forEach(function (message) {
-        if (message.recipient === user1) {
+        if (message.recipient === user1 && message.loaded_user1 === false) {
             message.loaded_user1 = true;
+            result.push(message);
         }
-        else {
+        else if (message.recipient === user2 && message.loaded_user2 === false) {
             message.loaded_user2 = true;
+            result.push(message);
         }
     });
     return result;

@@ -9,25 +9,35 @@ import { encryptMessage, decryptMessage } from '../helpers/cryptography';
 export function Chat() {
     const [messages, setMessages] = useState([]);
     const messageRef = useRef(null);
-    //const location = useLocation();
-   
+    const messagesRef = useRef(messages);
     const privateKey = localStorage.getItem("private_key"); 
     const username = localStorage.getItem("username"); 
 
     useEffect(() => {
-        axios.get('chat', {params: {
-            user1: localStorage.getItem("recipient"),
-            user2: localStorage.getItem("username")
-        }})
-        .then(function (response) {
-            processMessages(response, username, privateKey);
-        })
-        .catch(function (error) {
-            // handle error
-            console.log(error);
-        });
+        messagesRef.current = messages;
+    }, [messages]);
 
-        setInterval(() => {  
+    useEffect(() => {
+        fetchMessages(true);
+
+        const interval = setInterval(() => {  
+            fetchMessages(false);     
+        }, 5000);
+        return () => clearInterval(interval);
+
+    }, []);
+
+    function fetchMessages(full) {
+        if(full) {
+            axios.get('chat', {params: {
+                user1: localStorage.getItem("recipient"),
+                user2: localStorage.getItem("username")
+            }})
+            .then(function (response) {
+                processMessages(response, username, privateKey);
+            })
+        }
+        else{
             axios.get('message', {params: {
                 user1: localStorage.getItem("recipient"),
                 user2: localStorage.getItem("username")
@@ -35,48 +45,13 @@ export function Chat() {
             .then(function (response) {
                 processMessages(response, username, privateKey);
             })
-            .catch(function (error) {
-                // handle error
-                console.log(error);
-            });
-        }, 1000);
-        //return () => clearInterval(interval);
-
-    }, []);
-
-    const handleSubmit = async(event) => {
-        const recipientUsername = localStorage.getItem("recipient");
-        const recipientPublicKey = localStorage.getItem("recipient_public_key");
-        const sender = localStorage.getItem("username");
-        const senderPublicKey = localStorage.getItem("public_key")
-
-        event.preventDefault(); // Prevents page reload on pressing button. 
-        
-        axios.post('message', 
-            message( 
-                await encryptMessage(recipientPublicKey, messageRef.current.value), 
-                await encryptMessage(senderPublicKey, messageRef.current.value),
-                recipientUsername,
-                sender
-            )
-        )
-        .then(function (response) {
-            console.log(response.status);
-        })
-        .catch(function (error) {
-            // handle error
-            console.log(error);
-        })
-        .finally(function () {
-            // always executed
-        });
+        }
     }
-
 
     function processMessages(response, username, privateKey) {
         const handleResponse = async () => {
-            const messagesCopy = [...messages];
             const newMessages = response.data;
+            
             for (let i = 0; i < newMessages.length; i++) {
                 if(newMessages[i].sender === username){
                     newMessages[i] = {
@@ -91,15 +66,65 @@ export function Chat() {
                     }
                 }
             }
-            
-            setMessages(messagesCopy.concat(newMessages));
-            console.log(newMessages);
+
+            setMessages([...messagesRef.current].concat(newMessages));
         }
     
         handleResponse();
     }
 
+    const handleSubmit = async(event) => {
+        const recipientUsername = localStorage.getItem("recipient");
+        const recipientPublicKey = localStorage.getItem("recipient_public_key");
+        const sender = localStorage.getItem("username");
+        const senderPublicKey = localStorage.getItem("public_key")
+
+        event.preventDefault(); // Prevents page reload on pressing button. 
+
+        const messageToSend = message( 
+            await encryptMessage(recipientPublicKey, messageRef.current.value), 
+            await encryptMessage(senderPublicKey, messageRef.current.value),
+            recipientUsername,
+            sender
+        )
+
+        let messageLocal = message( 
+            messageRef.current.value, 
+            messageRef.current.value,
+            recipientUsername,
+            sender
+        )
+        
+        const newMessages = [...messages]
+        //newMessages.push(messageLocal);
+        
+        axios.post('message', messageToSend).then(() => {
+            //setMessages(newMessages)
+            fetchMessages(false);
+        })
+    }
+
+    function printMessages(messages) {
+        if(messages.length === 0) {
+            return(<p>Zero messages found.</p>);
+        } 
     
+        return(
+            <div className="messageList">
+                {messages.map((mes, i) => (
+                    <div className="message" key={i}>
+                        <div className="top">
+                        <p className="sender">{mes.sender}</p>
+                        <p className="timestamp">{mes.timestamp}</p>
+                        </div>
+    
+                        <p className="content">{mes.content}</p>
+                    </div>
+                ))}
+            </div>
+        );
+    }
+
     return (
         <>
             <Link to="/" onClick={()=>{localStorage.clear()}}>LOGOUT</Link>
@@ -116,25 +141,3 @@ export function Chat() {
         </>
     )
 }
-
-function printMessages(messages) {
-    if(messages.length === 0) {
-        return(<p>Zero messages found.</p>);
-    } 
-
-    return(
-        <div className="messageList">
-            {messages.map((mes, i) => (
-                <div className="message" key={i}>
-                    <div className="top">
-                    <p className="sender">{mes.sender}</p>
-                    <p className="timestamp">{mes.timestamp}</p>
-                    </div>
-
-                    <p className="content">{mes.content}</p>
-                </div>
-            ))}
-        </div>
-    );
-}
-
