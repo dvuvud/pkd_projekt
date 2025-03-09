@@ -63,10 +63,8 @@ nav ul li a:hover {
 .scrollbar {
     display: flex;
     flex-direction: column-reverse;
-    height: fit-content;
+    height: 100%;
     overflow-y: auto;
-
-    
 }
 .scrollbar::-webkit-scrollbar {
     background: transparent;

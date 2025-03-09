@@ -74,6 +74,9 @@ export function Chat() {
     }
 
     const handleSubmit = async(event) => {
+        if (messageRef.current.value === "") {
+            return;
+        }
         const recipientUsername = localStorage.getItem("recipient");
         const recipientPublicKey = localStorage.getItem("recipient_public_key");
         const sender = localStorage.getItem("username");
