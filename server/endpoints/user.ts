@@ -15,7 +15,7 @@ function simpleHash(str: string): number {
     for (let i = 0; i < str.length; i++) {
         hash += str.charCodeAt(i); 
     }
-    return hash % 32; // Modulo 32 is the range
+    return hash % 64; // Modulo 64 is the range
 }
 
 const hash_fun: HashFunction<Username> = (key: string) => simpleHash(key);
