@@ -2,14 +2,15 @@ import {
     User, Username 
 } from '../../types/user';
 import { 
-    Message, Chat, chat 
-} from '../../types/message';
-import { 
-    HashFunction, ProbingHashtable, ph_delete,
+    HashFunction, ProbingHashtable,
     ph_empty, ph_insert, ph_lookup 
 } from '../../types/hashtables';
-import { filter } from '../../types/list';
 
+/**
+ * Hashes a string
+ * @param { string } str - the string to be hashed
+ * @returns { number } the hash
+ */
 function simpleHash(str: string): number {
     let hash = 0;
     for (let i = 0; i < str.length; i++) {

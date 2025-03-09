@@ -1,5 +1,4 @@
-import { type User, Username } from './user';
-import { type Pair, pair, head, tail } from './list';
+import { Username } from './user';
 
 /**
  * A message record storing information about the receiver, sender,
