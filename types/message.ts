@@ -10,8 +10,9 @@ export type Message = {
     content_sender: string,
     recipient: Username,
     sender: Username,
-    timestamp: number,
-    loaded: boolean
+    timestamp: string,
+    loaded_user1: boolean,
+    loaded_user2: boolean
 }
 
 /**
@@ -36,19 +37,20 @@ export function chat(user1: Username, user2: Username, messages: Array<Message>)
  * @param { string } content - the content of the message
  * @param { Username } recipient - the recipient
  * @param { Username } sender - the sender
- * @param { number } timestamp - the time set by the server
+ * @param { string } timestamp - the time set by the server
  * @param { boolean } loaded - is it loaded by user
  * @returns { Array<Message> } of a users received messages
  */
 export function message(content_recipient: string, content_sender: string, recipient: Username, 
-                        sender: Username, timestamp: number = 0, 
-                        loaded: boolean = false): Message {
+                        sender: Username, timestamp: string = "", 
+                        loaded_user1: boolean = false, loaded_user2: boolean = false): Message {
     return {
         content_recipient,
         content_sender,
         recipient,
         sender,
         timestamp,
-        loaded
+        loaded_user1,
+        loaded_user2
     };
 }

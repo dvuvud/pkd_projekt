@@ -75,7 +75,7 @@ export function Chat() {
 
     function processMessages(response, username, privateKey) {
         const handleResponse = async () => {
-            const messagesCopy = [...messages];
+            const messagesCopy = messages;
             const newMessages = response.data;
             for (let i = 0; i < newMessages.length; i++) {
                 if(newMessages[i].sender === username){

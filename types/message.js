@@ -14,12 +14,12 @@ function chat(user1, user2, messages) {
  * @param { string } content - the content of the message
  * @param { Username } recipient - the recipient
  * @param { Username } sender - the sender
- * @param { number } timestamp - the time set by the server
+ * @param { string } timestamp - the time set by the server
  * @param { boolean } loaded - is it loaded by user
  * @returns { Array<Message> } of a users received messages
  */
 function message(content_recipient, content_sender, recipient, sender, timestamp, loaded) {
-    if (timestamp === void 0) { timestamp = 0; }
+    if (timestamp === void 0) { timestamp = ""; }
     if (loaded === void 0) { loaded = false; }
     return {
         content_recipient: content_recipient,

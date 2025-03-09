@@ -14,6 +14,7 @@ var chats = [];
  */
 function post_message(message) {
     var currentChat = find_chat(message.sender, message.recipient);
+    message.timestamp = Date().toString().split(' ')[0];
     if (currentChat === null) {
         currentChat = (0, message_1.chat)(message.sender, message.recipient, []);
         chats.push(currentChat);

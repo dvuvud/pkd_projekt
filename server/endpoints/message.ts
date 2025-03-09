@@ -12,7 +12,8 @@ const chats: Array<Chat> = [];
  */
 export function post_message(message: Message): void {
     let currentChat = find_chat(message.sender, message.recipient);
-
+    const currentDate = Date();
+    message.timestamp = Date().toString().split(' ')[0];
     if(currentChat === null) {
         currentChat = chat(message.sender, message.recipient, []);
         chats.push(currentChat);
@@ -38,11 +39,12 @@ export function get_message(user1: Username, user2: Username): Array<Message> {
     const result: Array<Message> = [];
 
     currentChat.messages.forEach(message => {
-        if (message.loaded === false) {
-            message.loaded = true;
-            result.push(message);
+        if (message.recipient === user1) {
+            message.loaded_user1 = true;
+        } else {
+            message.loaded_user2 = true;
         }
-    })
+    });
 
     return result;
 }
@@ -57,9 +59,13 @@ export function load_chat(user1: Username, user2: Username): Array<Message> {
     } else {}
 
     currentChat.messages.forEach(message => {
-        message.loaded = true;
+        if (message.recipient === user1) {
+            message.loaded_user1 = true;
+        } else {
+            message.loaded_user2 = true;
+        }
     });
-    
+
     return currentChat.messages;
 }
 
