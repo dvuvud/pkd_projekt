@@ -14,6 +14,7 @@ var chats = [];
  */
 function post_message(message) {
     var currentChat = find_chat(message.sender, message.recipient);
+    var currentDate = Date();
     message.timestamp = Date().toString().split(' ')[0];
     if (currentChat === null) {
         currentChat = (0, message_1.chat)(message.sender, message.recipient, []);
@@ -36,9 +37,11 @@ function get_message(user1, user2) {
     else { }
     var result = [];
     currentChat.messages.forEach(function (message) {
-        if (message.loaded === false) {
-            message.loaded = true;
-            result.push(message);
+        if (message.recipient === user1) {
+            message.loaded_user1 = true;
+        }
+        else {
+            message.loaded_user2 = true;
         }
     });
     return result;
@@ -52,7 +55,12 @@ function load_chat(user1, user2) {
     }
     else { }
     currentChat.messages.forEach(function (message) {
-        message.loaded = true;
+        if (message.recipient === user1) {
+            message.loaded_user1 = true;
+        }
+        else {
+            message.loaded_user2 = true;
+        }
     });
     return currentChat.messages;
 }

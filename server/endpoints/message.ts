@@ -39,10 +39,12 @@ export function get_message(user1: Username, user2: Username): Array<Message> {
     const result: Array<Message> = [];
 
     currentChat.messages.forEach(message => {
-        if (message.recipient === user1) {
+        if (message.recipient === user1 && message.loaded_user1 === false) {
             message.loaded_user1 = true;
-        } else {
+            result.push(message);
+        } else if (message.recipient === user2 && message.loaded_user2 === false){
             message.loaded_user2 = true;
+            result.push(message);
         }
     });
 
@@ -59,10 +61,12 @@ export function load_chat(user1: Username, user2: Username): Array<Message> {
     } else {}
 
     currentChat.messages.forEach(message => {
-        if (message.recipient === user1) {
+        if (message.recipient === user1 && message.loaded_user1 === false) {
             message.loaded_user1 = true;
-        } else {
+            result.push(message);
+        } else if (message.recipient === user2 && message.loaded_user2 === false){
             message.loaded_user2 = true;
+            result.push(message);
         }
     });
 
