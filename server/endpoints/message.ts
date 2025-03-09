@@ -61,12 +61,10 @@ export function load_chat(user1: Username, user2: Username): Array<Message> {
     } else {}
 
     currentChat.messages.forEach(message => {
-        if (message.recipient === user1 && message.loaded_user1 === false) {
+        if (message.recipient === user1) {
             message.loaded_user1 = true;
-            result.push(message);
-        } else if (message.recipient === user2 && message.loaded_user2 === false){
+        } else {
             message.loaded_user2 = true;
-            result.push(message);
         }
     });
 
