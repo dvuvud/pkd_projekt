@@ -3,7 +3,14 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.create_user = create_user;
 exports.find_user = find_user;
 var hashtables_1 = require("../../types/hashtables");
-var hash_fun = function (key) { return key.length; };
+function simpleHash(str) {
+    var hash = 0;
+    for (var i = 0; i < str.length; i++) {
+        hash += str.charCodeAt(i);
+    }
+    return hash % 32; // Modulo 32 is the range
+}
+var hash_fun = function (key) { return simpleHash(key); };
 // A hash table storing all users by userID
 var users = (0, hashtables_1.ph_empty)(100, hash_fun);
 /**
