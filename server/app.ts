@@ -48,8 +48,6 @@ app.get('/user', cors(corsOptions), (req, res) => {
   res.send(user);
 });
 
-
-
 app.listen(port, "0.0.0.0", () => {
   console.log("Example app listening on port ${port}")
 });

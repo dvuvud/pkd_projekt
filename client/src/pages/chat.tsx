@@ -26,25 +26,15 @@ export function Chat() {
 
     }, []);
 
-    function fetchMessages(full) {
-        if(full) {
-            axios.get('chat', {params: {
-                user1: localStorage.getItem("recipient"),
-                user2: localStorage.getItem("username")
-            }})
-            .then(function (response) {
-                processMessages(response, username, privateKey);
-            })
-        }
-        else{
-            axios.get('message', {params: {
-                user1: localStorage.getItem("recipient"),
-                user2: localStorage.getItem("username")
-            }})
-            .then(function (response) {
-                processMessages(response, username, privateKey);
-            })
-        }
+    function fetchMessages(loadAll: boolean) {
+        axios.get('message', {params: {
+            user1: localStorage.getItem("recipient"),
+            user2: localStorage.getItem("username"),
+            loadAll: loadAll
+        }})
+        .then(function (response) {
+            processMessages(response, username, privateKey);
+        })
     }
 
     function processMessages(response, username, privateKey) {
