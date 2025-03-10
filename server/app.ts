@@ -10,7 +10,7 @@ import { create_user, find_user } from './endpoints/user';
 var cors = require('cors'); 
 
 var corsOptions = {
-  origin: 'https://cryptalk.nettervik.se',
+  origin: 'http://localhost:5173',
   optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
 }
 
@@ -49,7 +49,7 @@ app.get('/user', cors(corsOptions), (req, res) => {
   res.send(user);
 });
 
-app.listen(port, "0.0.0.0", () => {
+app.listen(port, () => {
   console.log("Example app listening on port ${port}")
 });
 
@@ -74,7 +74,7 @@ const options = {
       },
       servers: [
         {
-          url: `https://cryptalk_backend.nettervik.se:${port}`,
+          url: `http://localhost:${port}`,
 
         },
       ],

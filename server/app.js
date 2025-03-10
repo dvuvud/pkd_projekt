@@ -19,20 +19,16 @@ app.get('/', function (req, res) {
 app.post('/message', cors(corsOptions), function (req, res) {
     (0, message_1.post_message)(req.body);
     res.sendStatus(200);
-    console.log();
 });
 app.get('/message', cors(corsOptions), function (req, res) {
-    res.setHeader('Content-Type', 'application/json');
-    res.send((0, message_1.get_message)(req.query.user1, req.query.user2));
-});
-app.get('/chat', cors(corsOptions), function (req, res) {
-    res.setHeader('Content-Type', 'application/json');
-    res.send((0, message_1.load_chat)(req.query.user1, req.query.user2));
+    var loadAll = false;
+    if (req.query.loadAll === "true") {
+        loadAll = true;
+    }
+    res.send((0, message_1.get_message)(req.query.user1, req.query.user2, loadAll));
 });
 app.post('/user', cors(corsOptions), function (req, res) {
-    var user = req.body;
-    (0, user_1.create_user)(user);
-    res.send(user.username);
+    res.send((0, user_1.create_user)(req.body).username);
 });
 app.get('/user', cors(corsOptions), function (req, res) {
     var user = (0, user_1.find_user)(req.query.username);
