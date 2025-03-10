@@ -59,6 +59,24 @@ export function Login() {
             alert("Username field is empty.");
         } else {
             event.preventDefault(); // Prevents page reload on pressing button. 
+            let alreadyExists: boolean = false;
+            axios.get<User>("user", { 
+                params: {
+                    username: usernameRef.current?.value
+                } 
+            })
+            .then((res: AxiosResponse): void =>  {
+                if(res.data !== "") {
+                    alert("Username already exists");
+
+                    alreadyExists = true;
+                }
+            })
+
+            if(alreadyExists) {
+                return;
+            }
+
             const keys: { publicKeyPem: string; privateKeyPem: string; } = await generateKeyPair();
             
             axios.post<User>('user', {
