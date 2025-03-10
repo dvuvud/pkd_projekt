@@ -35,11 +35,13 @@ export function chat(user1: Username, user2: Username, messages: Array<Message>)
 
 /**
  * Constructs a message object
- * @param { string } content - the content of the message
+ * @param { string } content_recipient - the content of the message
+ * @param { string } content_sender - the content of the message
  * @param { Username } recipient - the recipient
  * @param { Username } sender - the sender
  * @param { string } timestamp - the time set by the server
- * @param { boolean } loaded - is it loaded by user
+ * @param { boolean } loaded_user1 - is it loaded by user
+ * @param { boolean } loaded_user2 - is it loaded by user
  * @returns { Array<Message> } of a users received messages
  */
 export function message(content_recipient: string, content_sender: string, content_decrypted: string | undefined, recipient: Username, 
