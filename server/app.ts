@@ -7,14 +7,12 @@ import { type User } from '../types/user';
 import { post_message, get_message, load_chat } from './endpoints/message';
 import { create_user, find_user } from './endpoints/user';
 
-var cors = require('cors');
-
+var cors = require('cors'); 
 
 var corsOptions = {
   origin: 'https://cryptalk.nettervik.se',
   optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
 }
-
 
 const app = express();
 const port = 5000;
@@ -32,7 +30,6 @@ app.get('/', function(req, res){
 app.post('/message', cors(corsOptions), (req, res) => {
   post_message(req.body);
   res.sendStatus(200);
-  console.log()
 });
 
 app.get('/message', cors(corsOptions), (req, res) => {
@@ -85,7 +82,7 @@ const options = {
       },
       servers: [
         {
-          url: `http://localhost:${port}`,
+          url: `https://cryptalk_backend.nettervik.se:${port}`,
 
         },
       ],

@@ -22,13 +22,13 @@ export function post_message(message: Message): void {
     message.timestamp = currentDate.getHours().toString() + ":" +
                         currentDate.getMinutes().toString() + ":" +
                         currentDate.getSeconds().toString();
+
     if(currentChat === null) {
         currentChat = chat(message.sender, message.recipient, []);
-        ph_insert(user_chats, message.sender + message.recipient, currentChat);
+        ph_insert(user_chats, [message.sender, message.recipient].sort().join(""), currentChat);
     }
     
     currentChat.messages.push(message);
-    console.log(currentChat);
 }
 
 /**
@@ -86,6 +86,6 @@ export function load_chat(user1: Username, user2: Username): Array<Message> {
  * @returns { Chat | null } the chat between the two users
  */
 export function find_chat(user1: Username, user2: Username): Chat | null {
-    const currentChat = ph_lookup(user_chats, user1 + user2);
+    const currentChat = ph_lookup(user_chats, [user1, user2].sort().join(""));
     return currentChat === undefined ? null : currentChat;
 }
