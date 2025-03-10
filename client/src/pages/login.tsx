@@ -83,14 +83,9 @@ export function Login() {
                 username: usernameRef.current?.value,
                 publicKey: keys.publicKeyPem
             })
-            .then((res): void => {
-                if(res.status === 409) {
-                    alert("User already exists.");
-                }
-                else{
-                    localStorage.setItem("username", usernameRef.current!.value);
-                    navigate("/contacts");
-                }
+            .then((): void => {
+                localStorage.setItem("username", usernameRef.current!.value);
+                navigate("/contacts");
             })
             .catch(function (error: AxiosError): void {
                 console.log(error);
