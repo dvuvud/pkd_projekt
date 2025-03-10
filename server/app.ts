@@ -11,7 +11,7 @@ var cors = require('cors');
 
 
 var corsOptions = {
-  origin: 'http://localhost:5173',
+  origin: 'https://cryptalk.nettervik.se',
   optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
 }
 
@@ -60,7 +60,7 @@ app.get('/user', cors(corsOptions), (req, res) => {
 
 
 
-app.listen(port, () => {
+app.listen(port, "0.0.0.0", () => {
   console.log("Example app listening on port ${port}")
 });
 
