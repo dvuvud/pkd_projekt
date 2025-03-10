@@ -12,7 +12,7 @@ import { encryptMessage, decryptMessage } from '../helpers/cryptography';
  */
 export function Chat() {
     const [messages, setMessages] = useState<Array<Message>>([]);
-    const messageRef: React.RefObject<null | HTMLInputElement> = useRef<HTMLInputElement>(null);
+    const [contentToSend, setContentToSend] = useState<string>('');
     const messagesRef: React.RefObject<null | Array<Message>> = useRef<Array<Message>>(messages);
     const privateKey: string = localStorage.getItem("private_key")!; 
     const username: string = localStorage.getItem("username")!; 
@@ -73,10 +73,10 @@ export function Chat() {
         handleResponse();
     }
 
+    const handleSubmit = async(e: React.FormEvent<HTMLFormElement>): Promise<void> => {
+        e.preventDefault();
 
-    // Handles the logic for when the user sends a message.
-    const handleSubmit: React.MouseEventHandler<HTMLButtonElement> = async(event): Promise<void> => {
-        if (messageRef.current?.value === "") {
+        if(contentToSend === "") {
             return;
         }
 
@@ -85,21 +85,20 @@ export function Chat() {
         const sender: string = localStorage.getItem("username")!;
         const senderPublicKey: string = localStorage.getItem("public_key")!;
 
-        event.preventDefault(); // Prevents page reload on pressing button. 
-
         const messageToSend: Message = message( 
-            await encryptMessage(recipientPublicKey, messageRef.current!.value), 
-            await encryptMessage(senderPublicKey, messageRef.current!.value),
+            await encryptMessage(recipientPublicKey, contentToSend), 
+            await encryptMessage(senderPublicKey, contentToSend),
             undefined,
             recipientUsername,
             sender
         );
         
         axios.post<Message>('message', messageToSend).then((): void => {
-            //setMessages(newMessages)
             fetchMessages(false);
         });
-    }
+
+        setContentToSend('');
+      };
 
     /**
      * Creates HTML code containing all the messages.
@@ -133,14 +132,13 @@ export function Chat() {
             <header>
                 <nav>
                     <h1><Link to="/">Cryptalk</Link></h1>
-
                     <ul>
                         <li><Link to="/contacts">CONTACTS</Link></li>
                         <li><Link to="/" onClick={()=>{localStorage.clear()}}>LOGOUT</Link></li>
                     </ul>
                 </nav>
             </header>
-            
+
             <div className="chatInfo">
                 <h2>Logged in as  {username}</h2>
                 <p>Chatting with {localStorage.getItem("recipient")}</p>
@@ -152,10 +150,21 @@ export function Chat() {
                 </div>
             </div>
 
-            <div id="chatPanel">
+            {/*<div id="chatPanel">
                     <input name="chat" type="text" placeholder={"Message "+localStorage.getItem("recipient")} ref={messageRef}/>
                     <button type="submit" onClick={handleSubmit}>Send</button>
             </div>
+            */}
+                <form id="chatPanel" onSubmit={handleSubmit}>
+                <input
+                    name="chat"
+                    type="text"
+                    placeholder={"Message " + localStorage.getItem("recipient")}
+                    value={contentToSend}
+                    onChange={(e) => setContentToSend(e.target.value)}
+                />
+                <button type="submit">Send</button>
+            </form>
         </>
     )
 }
