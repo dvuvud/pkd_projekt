@@ -41,16 +41,7 @@ app.get('/message', cors(corsOptions), (req, res) => {
 });
 
 app.post('/user', cors(corsOptions), (req, res) => {
-  const userExists = find_user(req.body.username);
-
-  if(userExists){
-    res.sendStatus(409)
-  }
-  else{
-    const user: User = req.body;
-    create_user(user);
-    res.send(user.username);
-  }
+  res.send(create_user(req.body).username);
 });
 
 app.get('/user', cors(corsOptions), (req, res) => {
