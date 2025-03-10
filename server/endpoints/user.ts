@@ -11,10 +11,10 @@ import {
  * @param { string } str - the string to be hashed
  * @returns { number } the hash
  */
-function simpleHash(str: string): number {
+export function simpleHash(str: string): number {
     let hash = 0;
     for (let i = 0; i < str.length; i++) {
-        hash += str.charCodeAt(i); 
+        hash += str.charCodeAt(i);
     }
     return hash % 64; // Modulo 64 is the range
 }

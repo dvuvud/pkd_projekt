@@ -17,19 +17,16 @@ app.get('/', function (req, res) {
     res.send('Server working!');
 });
 app.post('/message', cors(corsOptions), function (req, res) {
-    // Messages now need user objects in order to be correctly sent and received
     (0, message_1.post_message)(req.body);
     res.sendStatus(200);
     console.log();
 });
 app.get('/message', cors(corsOptions), function (req, res) {
     res.setHeader('Content-Type', 'application/json');
-    // Messages now need user objects in order to be correctly sent and received
     res.send((0, message_1.get_message)(req.query.user1, req.query.user2));
 });
 app.get('/chat', cors(corsOptions), function (req, res) {
     res.setHeader('Content-Type', 'application/json');
-    // Messages now need user objects in order to be correctly sent and received
     res.send((0, message_1.load_chat)(req.query.user1, req.query.user2));
 });
 app.post('/user', cors(corsOptions), function (req, res) {

@@ -22,7 +22,7 @@ export function Chat() {
 
         const interval = setInterval(() => {  
             fetchMessages(false);     
-        }, 5000);
+        }, 250);
         return () => clearInterval(interval);
 
     }, []);

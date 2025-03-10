@@ -1,9 +1,15 @@
-import { User, Username } from '../../types/user';
+import { Username } from '../../types/user';
 import { Chat, Message, chat } from '../../types/message';
-import { find_user } from './user';
+import { HashFunction, ProbingHashtable, ph_empty, ph_insert, ph_lookup } from '../../types/hashtables';
+import { simpleHash } from './user';
 
 // Stores all chats across all users
 const chats: Array<Chat> = [];
+
+const hash_fun: HashFunction<string> = (key: string) => simpleHash(key);
+// A hash table storing all users by userID
+const user_chats: ProbingHashtable<string, Chat> = ph_empty(1000, hash_fun);
+
 
 /**
  * Receives a message from post and inserts said message
@@ -12,11 +18,13 @@ const chats: Array<Chat> = [];
  */
 export function post_message(message: Message): void {
     let currentChat = find_chat(message.sender, message.recipient);
-    const currentDate = Date();
-    message.timestamp = Date().toString().split(' ')[0];
+    const currentDate = new Date();
+    message.timestamp = currentDate.getHours().toString() + ":" +
+                        currentDate.getMinutes().toString() + ":" +
+                        currentDate.getSeconds().toString();
     if(currentChat === null) {
         currentChat = chat(message.sender, message.recipient, []);
-        chats.push(currentChat);
+        ph_insert(user_chats, message.sender + message.recipient, currentChat);
     }
     
     currentChat.messages.push(message);
@@ -25,8 +33,8 @@ export function post_message(message: Message): void {
 
 /**
  * Receives a message from post
- * @param { Username } user - the user making the request
- * @param { Username } recipient - the user being chatted with
+ * @param { Username } user1 - the user making the request
+ * @param { Username } user2 - the user being chatted with
  * @returns { Array<Message> } - returns an array of the received messages of the given user
  */
 export function get_message(user1: Username, user2: Username): Array<Message> {
@@ -75,28 +83,9 @@ export function load_chat(user1: Username, user2: Username): Array<Message> {
  * Returns the chat between two users
  * @param { Username } user1
  * @param { Username } user2
- * @returns { Chat | null } between the two users
+ * @returns { Chat | null } the chat between the two users
  */
 export function find_chat(user1: Username, user2: Username): Chat | null {
-    const user1_chats = filter_chats(chats, user1);
-    const mutual_chat = filter_chats(user1_chats, user2);
-    return mutual_chat[0] === undefined ? null : mutual_chat[0];
-}
-
-/**
- * Filters for all the chats one user is included in
- * @param { Username } user - the logged in user
- * @param { Array<Chat> } chats - the chats to filter
- * @returns { Array<Chat> } between the two users
- */
-function filter_chats(chats: Array<Chat>, user: Username): Array<Chat> {
-    const result: Array<Chat> = [];
-
-    chats.forEach(chat_object => {
-        if (chat_object.user1 === user || chat_object.user2 === user) {
-            result.push(chat_object);
-        } else {}
-    });
-    
-    return result;
+    const currentChat = ph_lookup(user_chats, user1 + user2);
+    return currentChat === undefined ? null : currentChat;
 }

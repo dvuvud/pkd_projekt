@@ -31,7 +31,6 @@ app.get('/', function(req, res){
 
 
 app.post('/message', cors(corsOptions), (req, res) => {
-  // Messages now need user objects in order to be correctly sent and received
   post_message(req.body);
   res.sendStatus(200);
   console.log()
@@ -39,14 +38,12 @@ app.post('/message', cors(corsOptions), (req, res) => {
 
 app.get('/message', cors(corsOptions), (req, res) => {
   res.setHeader('Content-Type', 'application/json')
-  // Messages now need user objects in order to be correctly sent and received
   res.send(get_message(req.query.user1, req.query.user2));
 });
 
 
 app.get('/chat', cors(corsOptions), (req, res) => {
   res.setHeader('Content-Type', 'application/json')
-  // Messages now need user objects in order to be correctly sent and received
   res.send(load_chat(req.query.user1, req.query.user2));
 });
 

@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.simpleHash = simpleHash;
 exports.create_user = create_user;
 exports.find_user = find_user;
 var hashtables_1 = require("../../types/hashtables");
