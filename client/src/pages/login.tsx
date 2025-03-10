@@ -1,6 +1,6 @@
 //import '../stylesheets/login.css';
-import { useEffect, useRef, useState } from 'react';
-import { Link, useNavigate } from "react-router-dom";
+import { useEffect, useRef } from 'react';
+import { useNavigate } from "react-router-dom";
 import { generateKeyPair } from '../helpers/cryptography';
 import axios from 'axios';
 
@@ -16,8 +16,6 @@ export function Login() {
     }, [localStorageUsername]);
 
     const usernameRef = useRef(null);
-    // const passwordRef = useRef(null);
-
     const handleLogin = (event) => {
         if(usernameRef.current.value === "") {
             alert("Username field is empty.");
@@ -40,13 +38,6 @@ export function Login() {
                     navigate("/contacts");
                 }
             })
-            .catch(function (error) {
-                console.log(error);
-                // handle error
-            })
-            .finally(function () {
-                // always executed
-            });
         }
     };
 
@@ -56,25 +47,16 @@ export function Login() {
         } else {
             event.preventDefault(); // Prevents page reload on pressing button. 
             const keys = await generateKeyPair();
-
             
             axios.post('user', {
                 username: usernameRef.current.value,
                 publicKey: keys.publicKeyPem
             })
-            .then(function (response) {
+            .then(function () {
                 localStorage.setItem("username", usernameRef.current.value);
-                //localStorage.setItem("publicKey", keys.publicKeyPem);
 
                 navigate("/contacts");
             })
-            .catch(function (error) {
-                // handle error
-                console.log(error);
-            })
-            .finally(function () {
-                // always executed
-            });
         }
     };
 

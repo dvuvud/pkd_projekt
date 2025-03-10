@@ -5,7 +5,6 @@ import { Link } from "react-router-dom";
 import { message } from "../types/message"
 import { encryptMessage, decryptMessage } from '../helpers/cryptography';
 
-
 export function Chat() {
     const [messages, setMessages] = useState([]);
     const messageRef = useRef(null);
@@ -91,16 +90,6 @@ export function Chat() {
             sender
         )
 
-        let messageLocal = message( 
-            messageRef.current.value, 
-            messageRef.current.value,
-            recipientUsername,
-            sender
-        )
-        
-        const newMessages = [...messages]
-        //newMessages.push(messageLocal);
-        
         axios.post('message', messageToSend).then(() => {
             //setMessages(newMessages)
             fetchMessages(false);

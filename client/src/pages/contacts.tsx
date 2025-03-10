@@ -1,7 +1,6 @@
 import "../stylesheets/contacts.css";
-import { useEffect, useRef } from 'react';
+import { useRef } from 'react';
 import { Link, useNavigate } from "react-router-dom";
-import { generateKeyPair } from '../helpers/cryptography'
 import axios from 'axios';
 
 export function Contacts() {
@@ -20,14 +19,6 @@ export function Contacts() {
             localStorage.setItem("recipient_public_key", response.data.publicKey); 
             navigate("/chat");
         })
-        .catch(function (error) {
-            // handle error
-        })
-        .finally(function () {
-            // always executed
-        });
-
-        //generateKeyPair();
     };
      
     return (
