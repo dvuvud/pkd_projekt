@@ -8,7 +8,11 @@ import { serverURL } from './helpers/global_variables';
 import "./stylesheets/App.css";
 import "./stylesheets/login.css";
 
-
+/**
+ * Handles React logic for this page.
+ * 
+ * @returns {JSX.Element} The HTML to be displayed on the page.
+ */
 function App() {
   axios.defaults.baseURL = serverURL;
 
