@@ -33,14 +33,24 @@ app.post('/message', cors(corsOptions), (req, res) => {
 });
 
 app.get('/message', cors(corsOptions), (req, res) => {
-  res.setHeader('Content-Type', 'application/json')
-  res.send(get_message(req.query.user1, req.query.user2, req.query.loadAll));
+  let loadAll: boolean = false;
+  if(res.query.loadAll === "true"){
+        loadAll = true;
+  }
+  res.send(get_message(req.query.user1, req.query.user2, loadAll));
 });
 
 app.post('/user', cors(corsOptions), (req, res) => {
-  const user: User = req.body;
-  create_user(user);
-  res.send(user.username);
+  const userExists = find_user(req.body.username);
+
+  if(userExists){
+    res.sendStatus(409)
+  }
+  else{
+    const user: User = req.body;
+    create_user(user);
+    res.send(user.username);
+  }
 });
 
 app.get('/user', cors(corsOptions), (req, res) => {
