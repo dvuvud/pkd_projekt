@@ -1,22 +1,24 @@
-<h1>Server (ExpressJS)</h1>
-The server is running ExpressJS to handle API calls. API endpoints are currently defined inside <code>server/app.js</code>.
-<h2>Swagger</h2>
-Installed alongside ExpressJS is Swagger, used for documenting datatypes and testing API calls (not actual code testing, just for ease of development). Swagger can be reached on localhost:5000/api-docs.
-Specifications (for Swagger specifically) for the data types and endpoints are inside <code>server/routes/*.js</code>
+<h1>Cryptalk</h1>
+Cryptalk consists of two components, frontend and backend. We currently have two branches, main and local. Main is configured to listen on https://cryptalk.nettervik.se, while local is configured for http://localhost.
 
-<h2>Run the server (ExpressJS)</h2>
+<h2>Backend</h2>
+The backend/server is running ExpressJS with TypeScript on port 5000.
+
+<h3>Run the server</h3>
 <ol>
-  <li>Clone the repository</li>
+  <li>Clone the repository.</li>
   <li>Inside <code>/server</code>, run <code>npm install</code>. This will install dependencies listed inside package.json</li>
-  <li>Start the server by runnning <code>tsc app.ts; node app.js</code></li>
+  <li>Start the server by runnning <code>npm run build; node run start</code>.</li>
 </ol>
-The server is now listening on port 5000. Requests can be made in any way you usually make API requests (curl, Postman, etc), you can reach Swagger on localhost:5000/api-docs.
 
-<h1>Client (React + Vite)</h1>
+The server is now reachable on localhost:5000. Swagger is installed and reachable on localhost:5000/api-docs, however the endpoint and schemas are outdated.
 
+<h2>Frontend</h2>
+The frontend is running React with Vite.
+
+<h3>Run the frontend</h3>
 <ol>
-  <li>Inside <code>/client</code>, run <code>npm install</code>
-  <li>Launch the app by running <code>npm run dev</code></li>
-  <li>Browse the app by clicking the link in the terminal, <code>http://localhost:xxxx</code></li>
-  <li>Typescript is compiled automatically after the client is started; no <code>tsc ...; node ...</code> needed. To compile, just save the changes in <code>App.tsx</code>. </li>
+  <li>Inside <code>/client</code>, run <code>npm install</code>.</li>
+  <li>Launch the app by running <code>npm run dev</code>. Alternatively build it with <code>npm run build</code> and then <code>npm run preview</code>.</li>
+  <li>Browse the app by clicking the link in the terminal, <code>http://localhost:xxxx</code>.</li>
 </ol>
