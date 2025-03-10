@@ -8,6 +8,7 @@ import { Username } from './user';
 export type Message = {
     content_recipient: string,
     content_sender: string,
+    content_decrypted: string | undefined,
     recipient: Username,
     sender: Username,
     timestamp: string,
@@ -41,12 +42,13 @@ export function chat(user1: Username, user2: Username, messages: Array<Message>)
  * @param { boolean } loaded - is it loaded by user
  * @returns { Array<Message> } of a users received messages
  */
-export function message(content_recipient: string, content_sender: string, recipient: Username, 
+export function message(content_recipient: string, content_sender: string, content_decrypted: undefined, recipient: Username, 
                         sender: Username, timestamp: string = "", 
                         loaded_user1: boolean = false, loaded_user2: boolean = false): Message {
     return {
         content_recipient,
         content_sender,
+        content_decrypted,
         recipient,
         sender,
         timestamp,
