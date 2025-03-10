@@ -4,7 +4,7 @@ const express = require("express"),
   swaggerUi = require("swagger-ui-express");
   
 import { type User } from '../types/user';
-import { post_message, get_message, load_chat } from './endpoints/message';
+import { post_message, get_message } from './endpoints/message';
 import { create_user, find_user } from './endpoints/user';
 
 var cors = require('cors'); 
