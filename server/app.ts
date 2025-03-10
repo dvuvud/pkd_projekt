@@ -34,7 +34,7 @@ app.post('/message', cors(corsOptions), (req, res) => {
 
 app.get('/message', cors(corsOptions), (req, res) => {
   let loadAll: boolean = false;
-  if(res.query.loadAll === "true"){
+  if(req.query.loadAll === "true"){
         loadAll = true;
   }
   res.send(get_message(req.query.user1, req.query.user2, loadAll));
