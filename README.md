@@ -18,6 +18,7 @@ The frontend is running React with Vite.
 
 <h3>Run the frontend</h3>
 <ol>
+  <li>Clone the repository.</li>
   <li>Inside <code>/client</code>, run <code>npm install</code>.</li>
   <li>Launch the app by running <code>npm run dev</code>. Alternatively build it with <code>npm run build</code> and then <code>npm run preview</code>.</li>
   <li>Browse the app by clicking the link in the terminal, <code>http://localhost:xxxx</code>.</li>
