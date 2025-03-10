@@ -9,7 +9,7 @@ import { create_user, find_user } from './endpoints/user.js';
 import { Message } from "./types/message.js";
 
 var corsOptions = {
-  origin: 'https://cryptalk.nettervik.se',
+  origin: 'http://localhost:5173',
   optionsSuccessStatus: 200
 }
 
@@ -59,7 +59,7 @@ app.get('/user', cors(corsOptions), (req: express.Request, res: express.Response
   res.send(find_user(username));
 });
 
-app.listen(port, "0.0.0.0", () => {
+app.listen(port, () => {
   console.log("Example app listening on port ${port}")
 });
 
