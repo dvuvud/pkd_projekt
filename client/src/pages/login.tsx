@@ -60,7 +60,7 @@ export function Login() {
         } else {
             event.preventDefault(); // Prevents page reload on pressing button. 
             let alreadyExists: boolean = false;
-            axios.get<User>("user", { 
+            await axios.get<User>("user", { 
                 params: {
                     username: usernameRef.current?.value
                 } 
