@@ -34,15 +34,8 @@ app.post('/message', cors(corsOptions), (req, res) => {
 
 app.get('/message', cors(corsOptions), (req, res) => {
   res.setHeader('Content-Type', 'application/json')
-  res.send(get_message(req.query.user1, req.query.user2));
+  res.send(get_message(req.query.user1, req.query.user2, req.query.loadAll));
 });
-
-
-app.get('/chat', cors(corsOptions), (req, res) => {
-  res.setHeader('Content-Type', 'application/json')
-  res.send(load_chat(req.query.user1, req.query.user2));
-});
-
 
 app.post('/user', cors(corsOptions), (req, res) => {
   const user: User = req.body;
