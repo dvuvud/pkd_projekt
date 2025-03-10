@@ -1,2 +1,2 @@
-export const serverPort: number = 5000;
-export const serverURL: string = `http://localhost:${serverPort.toString()}/`;
+export const serverPort: number = 443;
+export const serverURL: string = `https://cryptalk_backend.nettervik.se:${serverPort.toString()}/`;

@@ -3,13 +3,9 @@ import { Chat, Message, chat } from '../../types/message';
 import { HashFunction, ProbingHashtable, ph_empty, ph_insert, ph_lookup } from '../../types/hashtables';
 import { simpleHash } from './user';
 
-// Stores all chats across all users
-const chats: Array<Chat> = [];
-
 const hash_fun: HashFunction<string> = (key: string) => simpleHash(key);
 // A hash table storing all users by userID
 const user_chats: ProbingHashtable<string, Chat> = ph_empty(1000, hash_fun);
-
 
 /**
  * Receives a message from post and inserts said message
@@ -22,13 +18,13 @@ export function post_message(message: Message): void {
     message.timestamp = currentDate.getHours().toString() + ":" +
                         currentDate.getMinutes().toString() + ":" +
                         currentDate.getSeconds().toString();
+
     if(currentChat === null) {
         currentChat = chat(message.sender, message.recipient, []);
-        ph_insert(user_chats, message.sender + message.recipient, currentChat);
+        ph_insert(user_chats, [message.sender, message.recipient].sort().join(""), currentChat);
     }
     
     currentChat.messages.push(message);
-    console.log(currentChat);
 }
 
 /**
@@ -37,46 +33,41 @@ export function post_message(message: Message): void {
  * @param { Username } user2 - the user being chatted with
  * @returns { Array<Message> } - returns an array of the received messages of the given user
  */
-export function get_message(user1: Username, user2: Username): Array<Message> {
+export function get_message(user1: Username, user2: Username, loadAll: boolean): Array<Message> {
     let currentChat = find_chat(user1, user2);
 
     if (currentChat === null) {
         currentChat = chat(user1, user2, []);
     } else {}
 
-    const result: Array<Message> = [];
+    let result: Array<Message> = [];
 
-    currentChat.messages.forEach(message => {
-        if (message.recipient === user1 && message.loaded_user1 === false) {
-            message.loaded_user1 = true;
-            result.push(message);
-        } else if (message.recipient === user2 && message.loaded_user2 === false){
-            message.loaded_user2 = true;
-            result.push(message);
-        }
-    });
+    if(loadAll){
+        //set all messages to loaded and return all of them
+        currentChat.messages.forEach(message => {
+            if (message.recipient === user1) {
+                message.loaded_user1 = true;
+            } else {
+                message.loaded_user2 = true;
+            }
+        });
+
+        result = currentChat.messages
+    }
+    else{
+        //return only non-loaded messages
+        currentChat.messages.forEach(message => {
+            if (message.recipient === user1 && message.loaded_user1 === false) {
+                message.loaded_user1 = true;
+                result.push(message);
+            } else if (message.recipient === user2 && message.loaded_user2 === false){
+                message.loaded_user2 = true;
+                result.push(message);
+            }
+        });
+    }
 
     return result;
-}
-
-// Will be added later and be used to load a users received and sent messages for a given chat
-// User this function to load messages even if they have the 'loaded' field set to true
-export function load_chat(user1: Username, user2: Username): Array<Message> {
-    let currentChat = find_chat(user1, user2);
-
-    if (currentChat === null) {
-        currentChat = chat(user1, user2, []);
-    } else {}
-
-    currentChat.messages.forEach(message => {
-        if (message.recipient === user1) {
-            message.loaded_user1 = true;
-        } else {
-            message.loaded_user2 = true;
-        }
-    });
-
-    return currentChat.messages;
 }
 
 /**
@@ -86,6 +77,6 @@ export function load_chat(user1: Username, user2: Username): Array<Message> {
  * @returns { Chat | null } the chat between the two users
  */
 export function find_chat(user1: Username, user2: Username): Chat | null {
-    const currentChat = ph_lookup(user_chats, user1 + user2);
+    const currentChat = ph_lookup(user_chats, [user1, user2].sort().join(""));
     return currentChat === undefined ? null : currentChat;
 }

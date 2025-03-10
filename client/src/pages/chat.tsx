@@ -34,31 +34,15 @@ export function Chat() {
         // return () => clearInterval(interval);
     }, []);
 
-
-    /**
-     * Gets the messages from a chat between two users, then decrypts them.  
-     * 
-     * @param {Boolean} full - Return entire chat if true, or only unloaded messages if false.
-     */
-    function fetchMessages(full: boolean): void {
-        if(full) {
-            axios.get<Message>('chat', { params: {
-                user1: localStorage.getItem("recipient"),
-                user2: localStorage.getItem("username")
-            }})
-            .then(function (response: AxiosResponse): void {
-                processMessages(response, username!, privateKey!);
-            });
-        }
-        else{
-            axios.get<Message>('message', { params: {
-                user1: localStorage.getItem("recipient"),
-                user2: localStorage.getItem("username")
-            }})
-            .then(function (response: AxiosResponse): void {
-                processMessages(response, username!, privateKey!);
-            });
-        }
+    function fetchMessages(loadAll: boolean) {
+        axios.get('message', {params: {
+            user1: localStorage.getItem("recipient"),
+            user2: localStorage.getItem("username"),
+            loadAll: loadAll
+        }})
+        .then(function (response) {
+            processMessages(response, username, privateKey);
+        })
     }
 
     /**
