@@ -1,7 +1,6 @@
 
 /**
- * A User record storing information about a given user
- * add more comments later (gotta check how to write docs for records)
+ * A User record stores information about a given user.
  */
 export type User = {
     username: Username,
