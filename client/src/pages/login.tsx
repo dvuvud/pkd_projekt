@@ -1,62 +1,77 @@
-//import '../stylesheets/login.css';
 import { useEffect, useRef } from 'react';
-import { useNavigate } from "react-router-dom";
+import { NavigateFunction, useNavigate } from "react-router-dom";
 import { generateKeyPair } from '../helpers/cryptography';
-import axios from 'axios';
+import axios, { AxiosResponse, AxiosError } from 'axios';
+import { User } from '../types/user';
 
+/**
+ * Handles React logic for this page.
+ * 
+ * @returns {JSX.Element} The HTML to be displayed on the page.
+ */
 export function Login() {
-    const navigate = useNavigate();
-    const localStorageUsername = localStorage.getItem("username");
+    const navigate: NavigateFunction = useNavigate();
+    const localStorageUsername: string | null = localStorage.getItem("username");
 
     // Navigates to the Login page is the user is not saved in local storage, i.e. not logged in.
-    useEffect(() => {
+    useEffect((): void => {
         if (localStorageUsername !== null) {
             navigate('/contacts');
         }
     }, [localStorageUsername]);
 
-    const usernameRef = useRef(null);
-    const handleLogin = (event) => {
-        if(usernameRef.current.value === "") {
+    const usernameRef: React.RefObject<null | HTMLInputElement> = useRef<HTMLInputElement>(null);
+    // const passwordRef = useRef(null);
+
+    // Handles the logic for when the user submits a login. 
+    // Sends a GET-request to the server to check if a user with the sent parameters exists. 
+    // If so: logs in and sends the user to the Contacts page.
+    const handleLogin: React.MouseEventHandler<HTMLButtonElement> = (event): void => {
+        if(usernameRef.current?.value === "") {
             alert("Username field is empty.");
         } else {
             event.preventDefault(); // Prevents page reload on pressing button. 
 
-            axios.get("user", { 
+            axios.get<User>("user", { 
                 params: {
-                    username: usernameRef.current.value
-                }
+                    username: usernameRef.current?.value
+                } 
             })
-            .then(function (response) {
-                console.log(response.status);
-
+            .then(function (response: AxiosResponse): void {
                 if(response.data === "") {
                     alert("Username does not exist.");
                 } else {
                     localStorage.setItem("username", response.data.username); 
-                    //localStorage.setItem("public_key", response.data.publicKey); 
                     navigate("/contacts");
                 }
             })
+            .catch(function (error: AxiosError): void {
+                console.log(error);
+            });
         }
     };
 
-    const handleRegister = async(event) => {
-        if(usernameRef.current.value === "") {
+    // Handles the logic for when the user submits a register.
+    // Sends a POST-request to the server to add a user, 
+    // then logs in and sends the user to the Contacts page.
+    const handleRegister: React.MouseEventHandler<HTMLButtonElement> = async(event): Promise<void> => {
+        if(usernameRef.current?.value === "") {
             alert("Username field is empty.");
         } else {
             event.preventDefault(); // Prevents page reload on pressing button. 
-            const keys = await generateKeyPair();
+            const keys: { publicKeyPem: string; privateKeyPem: string; } = await generateKeyPair();
             
-            axios.post('user', {
-                username: usernameRef.current.value,
+            axios.post<User>('user', {
+                username: usernameRef.current?.value,
                 publicKey: keys.publicKeyPem
             })
-            .then(function () {
-                localStorage.setItem("username", usernameRef.current.value);
-
+            .then(function (response: AxiosResponse): void {
+                localStorage.setItem("username", usernameRef.current!.value);
                 navigate("/contacts");
             })
+            .catch(function (error: AxiosError): void {
+                console.log(error);
+            });
         }
     };
 
