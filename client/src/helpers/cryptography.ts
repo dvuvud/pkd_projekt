@@ -42,7 +42,9 @@ export const generateKeyPair = async (): Promise<{publicKeyPem: string, privateK
         return {publicKeyPem, privateKeyPem};
     } catch (error) {
         console.error('Error generating keys:', error);
+        throw(error)
     }
+
 };
 
 /**
@@ -52,7 +54,7 @@ export const generateKeyPair = async (): Promise<{publicKeyPem: string, privateK
  * @param message 
  * @returns { string } - The encrypted message
  */
-export const encryptMessage = async (publicKeyPem, message) => {
+export const encryptMessage = async (publicKeyPem: string, message: string) => {
     // Import the key using similar settings as when created (see function generateKeyPair)
     const publicKey = await crypto.subtle.importKey(
         'spki',
@@ -80,7 +82,7 @@ export const encryptMessage = async (publicKeyPem, message) => {
  * @param base64Ciphertext 
  * @returns { string } - The decrypted message
  */
-export const decryptMessage = async (privateKeyPem, base64Ciphertext) => {
+export const decryptMessage = async (privateKeyPem: string, base64Ciphertext: string) => {
     // Import the private key using similar settings as when created (see function generateKeyPair)
     const privateKey = await crypto.subtle.importKey(
         'pkcs8',
@@ -113,8 +115,10 @@ export const decryptMessage = async (privateKeyPem, base64Ciphertext) => {
  * @returns { string } - The key in PEM format
  */
 const convertKeyToPem = (buffer: ArrayBuffer, label: string): string => {
-    const base64 = btoa(String.fromCharCode(...new Uint8Array(buffer)));
-    return `-----BEGIN ${label}-----\n${base64.match(/.{1,64}/g).join('\n')}\n-----END ${label}-----`;
+    const bytes = new Uint8Array(buffer);
+    const base64 = btoa(String.fromCharCode(...bytes));
+    const base64Chunks = base64.match(/.{1,64}/g) || [];
+    return `-----BEGIN ${label}-----\n${base64Chunks.join('\n')}\n-----END ${label}-----`;
 };
 
 /**

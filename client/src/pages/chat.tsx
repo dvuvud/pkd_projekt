@@ -88,8 +88,8 @@ export function Chat() {
         event.preventDefault(); // Prevents page reload on pressing button. 
 
         const messageToSend: Message = message( 
-            await encryptMessage(recipientPublicKey, messageRef.current?.value), 
-            await encryptMessage(senderPublicKey, messageRef.current?.value),
+            await encryptMessage(recipientPublicKey, messageRef.current!.value), 
+            await encryptMessage(senderPublicKey, messageRef.current!.value),
             undefined,
             recipientUsername,
             sender
