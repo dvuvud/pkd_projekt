@@ -1,7 +1,7 @@
-import { Username } from '../../types/user';
-import { Chat, Message, chat } from '../../types/message';
-import { HashFunction, ProbingHashtable, ph_empty, ph_insert, ph_lookup } from '../../types/hashtables';
-import { simpleHash } from './user';
+import { Username } from "../types/user.js"
+import { Chat, Message, chat } from "../types/message.js"
+import { HashFunction, ProbingHashtable, ph_empty, ph_insert, ph_lookup } from "../types/hashtables.js";
+import { simpleHash } from './user.js';
 
 const hash_fun: HashFunction<string> = (key: string) => simpleHash(key);
 // A hash table storing all users by userID
@@ -35,6 +35,7 @@ export function post_message(message: Message): void {
  */
 export function get_message(user1: Username, user2: Username, loadAll: boolean): Array<Message> {
     let currentChat = find_chat(user1, user2);
+    loadAll = Boolean(loadAll);
 
     if (currentChat === null) {
         currentChat = chat(user1, user2, []);

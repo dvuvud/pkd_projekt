@@ -1,4 +1,4 @@
-import { Username } from './user';
+import { Username } from './user.js';
 
 /**
  * A message record storing information about the receiver, sender,

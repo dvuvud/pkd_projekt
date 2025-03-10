@@ -1,10 +1,8 @@
-import { 
-    User, Username 
-} from '../../types/user';
+import { User, Username } from "../types/user.js"
 import { 
     HashFunction, ProbingHashtable,
     ph_empty, ph_insert, ph_lookup 
-} from '../../types/hashtables';
+} from "../types/hashtables.js";
 
 /**
  * Hashes a string

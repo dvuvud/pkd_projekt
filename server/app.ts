@@ -1,17 +1,16 @@
-const express = require("express"),
-  bodyParser = require("body-parser"),
-  swaggerJsdoc = require("swagger-jsdoc"),
-  swaggerUi = require("swagger-ui-express");
-  
-import { type User } from '../types/user';
-import { post_message, get_message } from './endpoints/message';
-import { create_user, find_user } from './endpoints/user';
+import express from "express";
+import bodyParser from "body-parser";
+import swaggerJsdoc from "swagger-jsdoc";
+import swaggerUi from "swagger-ui-express";
+import cors from "cors";
 
-var cors = require('cors'); 
+import { post_message, get_message } from './endpoints/message.js';
+import { create_user, find_user } from './endpoints/user.js';
+import { Message } from "./types/message.js";
 
 var corsOptions = {
   origin: 'https://cryptalk.nettervik.se',
-  optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
+  optionsSuccessStatus: 200
 }
 
 const app = express();
@@ -21,38 +20,48 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cors());
 
+app.post('/message', cors(corsOptions), (req: express.Request, res: express.Response) => {
+  const message: Message = req.body;
 
-app.get('/', function(req, res){
-  res.send('Server working!');
-});
-
-
-app.post('/message', cors(corsOptions), (req, res) => {
-  post_message(req.body);
+  post_message(message);
   res.sendStatus(200);
 });
 
-app.get('/message', cors(corsOptions), (req, res) => {
+app.get('/message', cors(corsOptions), (req: express.Request, res: express.Response) => {
   let loadAll: boolean = false;
   if(req.query.loadAll === "true"){
         loadAll = true;
+        
   }
-  res.send(get_message(req.query.user1, req.query.user2, loadAll));
+
+  const user1 = req.query.user1;
+  const user2 = req.query.user2;
+
+  if(!user1 || typeof user1 !== "string" || !user2 || typeof user2 !== "string"){
+    res.sendStatus(400); // bad request
+    return;
+  }
+
+  res.send(get_message(user1, user2, loadAll));
 });
 
-app.post('/user', cors(corsOptions), (req, res) => {
+app.post('/user', cors(corsOptions), (req: express.Request, res: express.Response) => {
   res.send(create_user(req.body).username);
 });
 
-app.get('/user', cors(corsOptions), (req, res) => {
-  const user = find_user(req.query.username);
-  res.send(user);
+app.get('/user', cors(corsOptions), (req: express.Request, res: express.Response) => {
+  const username = req.query.username;
+  if(!username || typeof username !== "string"){
+    res.sendStatus(400); // bad request
+    return;
+  }
+
+  res.send(find_user(username));
 });
 
 app.listen(port, "0.0.0.0", () => {
   console.log("Example app listening on port ${port}")
 });
-
 
 const options = {
     definition: {
@@ -61,10 +70,10 @@ const options = {
         title: "Cryptalk API",
         version: "0.1.0",
         description:
-          "This is a simple CRUD API application made with Express and documented with Swagger",
+          "Cryptalk API",
         license: {
           name: "MIT",
-          url: "https://spdx.org/licenses/MIT.html",
+          url: "",
         },
         contact: {
           name: "",
