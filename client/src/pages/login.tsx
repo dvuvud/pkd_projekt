@@ -65,7 +65,7 @@ export function Login() {
                 username: usernameRef.current?.value,
                 publicKey: keys.publicKeyPem
             })
-            .then(function (response: AxiosResponse): void {
+            .then((): void => {
                 localStorage.setItem("username", usernameRef.current!.value);
                 navigate("/contacts");
             })
