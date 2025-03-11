@@ -15,5 +15,6 @@ export default {
     },
     testMatch: ['**/*.test.ts'],
     moduleFileExtensions: ['ts', 'js', 'json'],
-    transformIgnorePatterns: ['node_modules/(?!(swagger-ui-express|swagger-jsdoc)/)']
+    transformIgnorePatterns: ['node_modules/(?!(swagger-ui-express|swagger-jsdoc)/)'],
+    collectCoverage: true
 };

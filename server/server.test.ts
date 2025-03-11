@@ -21,3 +21,11 @@ test("posting and getting messages", () => {
     expect(((get_message(random_user.username,
                          random_guy.username, false))[0].content_recipient)).toBe(random_message.content_recipient);
 });
+
+test("find non-existent user", () => {
+    expect(find_user("bert")).toBe(null);
+});
+
+test("get message from non-existent chat", () => {
+    expect(get_message("bert", "hert", true)).toStrictEqual([]);
+});

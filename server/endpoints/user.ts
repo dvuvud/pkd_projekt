@@ -4,6 +4,8 @@ import {
     ph_empty, ph_insert, ph_lookup 
 } from "../types/hashtables.js";
 
+// jest coverage: user.ts       |     100 |      100 |     100 |     100 |
+
 /**
  * Hashes a string
  * @param { string } str - the string to be hashed

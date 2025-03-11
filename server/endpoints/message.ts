@@ -5,6 +5,8 @@ import {
 } from "../types/hashtables.js";
 import { simpleHash } from './user.js';
 
+// jest coverage: message.ts    |   83.78 |     62.5 |   83.33 |   83.33 |
+
 const hash_fun: HashFunction<string> = (key: string) => simpleHash(key);
 // A hash table storing all users by userID
 const user_chats: ProbingHashtable<string, Chat> = ph_empty(1000, hash_fun);
