@@ -89,7 +89,6 @@ export function Chat() {
         const messageToSend: Message = message( 
             await encryptMessage(recipientPublicKey, contentToSend), 
             await encryptMessage(senderPublicKey, contentToSend),
-            undefined,
             recipientUsername,
             sender
         );
