@@ -9,7 +9,7 @@ import { create_user, find_user } from './endpoints/user.js';
 import { Message } from "./types/message.js";
 
 var corsOptions = {
-  origin: 'https://cryptalk.nettervik.se',
+  origin: 'http://localhost:5173',
   optionsSuccessStatus: 200
 }
 
