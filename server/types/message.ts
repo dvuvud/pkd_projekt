@@ -3,7 +3,6 @@ import { Username } from './user.js';
 /**
  * A message record storing information about the receiver, sender,
  * the message itself, as well as the time it was sent
- * add more comments later (gotta check how to write docs for records)
  */
 export type Message = {
     content_recipient: string,
@@ -40,7 +39,8 @@ export function chat(user1: Username, user2: Username, messages: Array<Message>)
  * @param { Username } recipient - the recipient
  * @param { Username } sender - the sender
  * @param { string } timestamp - the time set by the server
- * @param { boolean } loaded - is it loaded by user
+ * @param { boolean } loaded_user1 - is it loaded by user1
+ * @param { boolean } loaded_user2 - is it loaded by user2
  * @param { undefined | string } content_decrypted - decrypted message
  * @returns { Array<Message> } of a users received messages
  */

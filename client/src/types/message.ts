@@ -1,14 +1,13 @@
-import { Username } from './user';
+import { Username } from './user.js';
 
 /**
  * A message record storing information about the receiver, sender,
  * the message itself, as well as the time it was sent
- * add more comments later (gotta check how to write docs for records)
  */
 export type Message = {
     content_recipient: string,
     content_sender: string,
-    content_decrypted: string | undefined, 
+    content_decrypted: string | undefined,
     recipient: Username,
     sender: Username,
     timestamp: string,
@@ -40,13 +39,15 @@ export function chat(user1: Username, user2: Username, messages: Array<Message>)
  * @param { Username } recipient - the recipient
  * @param { Username } sender - the sender
  * @param { string } timestamp - the time set by the server
- * @param { boolean } loaded_user1 - is it loaded by user
- * @param { boolean } loaded_user2 - is it loaded by user
+ * @param { boolean } loaded_user1 - is it loaded by user1
+ * @param { boolean } loaded_user2 - is it loaded by user2
+ * @param { undefined | string } content_decrypted - decrypted message
  * @returns { Array<Message> } of a users received messages
  */
-export function message(content_recipient: string, content_sender: string, content_decrypted: string | undefined, recipient: Username, 
-                        sender: Username, timestamp: string = "", 
-                        loaded_user1: boolean = false, loaded_user2: boolean = false): Message {
+export function message(content_recipient: string, content_sender: string,
+                        recipient: Username, sender: Username, timestamp: string = "", 
+                        loaded_user1: boolean = false, loaded_user2: 
+                        boolean = false, content_decrypted: undefined = undefined): Message {
     return {
         content_recipient,
         content_sender,
