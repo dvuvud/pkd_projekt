@@ -52,7 +52,8 @@ export function Chat() {
      * @param {string} username - The username of the currently logged in user.
      * @param {string} privateKey - The private key of the currently logged in user.
      */
-    function processMessages(response: AxiosResponse, username: string, privateKey: string) {
+    function processMessages(response: AxiosResponse, username: string,
+                             privateKey: string): void {
         const handleResponse = async () => {
             const newMessages: Array<Message> = response.data;
             

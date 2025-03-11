@@ -21,7 +21,7 @@ function App() {
       <Router>
         <Routes>
           <Route path="/" element={<Login/>}/> 
-          <Route path="/chat" element={<Chat/>}/> {/* Example access page: write http://localhost: ... /#/chat in the browser */}
+          <Route path="/chat" element={<Chat/>}/> {}
           <Route path="/contacts" element={<Contacts/>}/>
         </Routes>
       </Router>
