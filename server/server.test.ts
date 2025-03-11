@@ -14,10 +14,10 @@ test("finding and creating: USERS", () => {
 
 test("finding and creating: CHATS", () => {
     expect(find_chat(random_user.username,
-                     random_guy.username)?.messages[0].content_recipient.toBe(random_message.content_recipient));
+                     random_guy.username)?.messages[0].content_recipient).toBe(random_message.content_recipient);
 });
 
 test("posting and getting messages", () => {
     expect(find_chat(random_user.username,
-                     random_guy.username)?.messages[0].content_recipient.toBe(random_message.content_recipient));
+                     random_guy.username)?.messages[0].content_recipient).toBe(random_message.content_recipient);
 });
