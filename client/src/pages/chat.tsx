@@ -27,21 +27,21 @@ export function Chat() {
     useEffect((): void => {
         fetchMessages(true);
 
-        /*const interval: NodeJS.Timeout = */setInterval((): void => {  
+        setInterval((): void => {  
             fetchMessages(false);     
         }, updateTime);
-
-        // return () => clearInterval(interval);
     }, []);
 
+    // Fetches messages from server. Takes a boolean that determines
+    // if all messages are to be fetched, or just non-loaded ones
     function fetchMessages(loadAll: boolean) {
         axios.get('message', {params: {
             user1: localStorage.getItem("recipient"),
             user2: localStorage.getItem("username"),
             loadAll: loadAll
         }})
-        .then(function (response) {
-            processMessages(response, username, privateKey);
+        .then((res: AxiosResponse) => {
+            processMessages(res, username, privateKey);
         })
     }
 
@@ -52,8 +52,7 @@ export function Chat() {
      * @param {string} username - The username of the currently logged in user.
      * @param {string} privateKey - The private key of the currently logged in user.
      */
-    function processMessages(response: AxiosResponse, username: string,
-                             privateKey: string): void {
+    function processMessages(response: AxiosResponse, username: string, privateKey: string) {
         const handleResponse = async () => {
             const newMessages: Array<Message> = response.data;
             
@@ -89,7 +88,6 @@ export function Chat() {
         const messageToSend: Message = message( 
             await encryptMessage(recipientPublicKey, contentToSend), 
             await encryptMessage(senderPublicKey, contentToSend),
-            undefined,
             recipientUsername,
             sender
         );

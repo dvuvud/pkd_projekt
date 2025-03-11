@@ -44,7 +44,6 @@ export const generateKeyPair = async (): Promise<{publicKeyPem: string, privateK
         console.error('Error generating keys:', error);
         throw(error)
     }
-
 };
 
 /**
@@ -52,7 +51,7 @@ export const generateKeyPair = async (): Promise<{publicKeyPem: string, privateK
  * Encrypts the message using the public key. The message can only be encrypted using the respective private key.
  * @param publicKeyPem 
  * @param message 
- * @returns { string } - The encrypted message
+ * @returns { Promise<string> } - The encrypted message
  */
 export const encryptMessage = async (publicKeyPem: string, message: string) => {
     // Import the key using similar settings as when created (see function generateKeyPair)
@@ -80,7 +79,7 @@ export const encryptMessage = async (publicKeyPem: string, message: string) => {
  * Decrypts the message using the private key.
  * @param privateKeyPem 
  * @param base64Ciphertext 
- * @returns { string } - The decrypted message
+ * @returns { Promise<string> } - The decrypted message
  */
 export const decryptMessage = async (privateKeyPem: string, base64Ciphertext: string) => {
     // Import the private key using similar settings as when created (see function generateKeyPair)
@@ -131,6 +130,10 @@ const convertPemToKey = (pem: string): ArrayBuffer => {
     return Uint8Array.from(atob(pemContents), c => c.charCodeAt(0)).buffer;
 };
 
+/**
+ * Takes a private key and prompts the user to download it to their device
+ * @param key 
+ */
 const downloadPrivateKey = (key: string) => {
     if (!key) return;
     
