@@ -31,7 +31,8 @@ export type Chat = {
  * @param { Array<Message> } messages - an array of messages
  * @returns { Array<Message> } of a users received messages
  */
-export function chat(user1: Username, user2: Username, messages: Array<Message>): Chat {
+export function chat(user1: Username, user2: Username,
+                     messages: Array<Message>): Chat {
     return {
         user1,
         user2,
@@ -52,9 +53,11 @@ export function chat(user1: Username, user2: Username, messages: Array<Message>)
  * @returns { Array<Message> } of a users received messages
  */
 export function message(content_recipient: string, content_sender: string,
-                        recipient: Username, sender: Username, timestamp: string = "", 
+                        recipient: Username, sender: Username,
+                        timestamp: string = "", 
                         content_decrypted: undefined = undefined,
-                        loaded_user1: boolean = false, loaded_user2: boolean = false): Message {
+                        loaded_user1: boolean = false,
+                        loaded_user2: boolean = false): Message {
     return {
         content_recipient,
         content_sender,

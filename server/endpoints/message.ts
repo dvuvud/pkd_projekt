@@ -1,6 +1,8 @@
 import { Username } from "../types/user.js"
 import { Chat, Message, chat } from "../types/message.js"
-import { HashFunction, ProbingHashtable, ph_empty, ph_insert, ph_lookup } from "../types/hashtables.js";
+import {
+    HashFunction, ProbingHashtable, ph_empty, ph_insert, ph_lookup 
+} from "../types/hashtables.js";
 import { simpleHash } from './user.js';
 
 const hash_fun: HashFunction<string> = (key: string) => simpleHash(key);
@@ -21,7 +23,9 @@ export function post_message(message: Message): void {
 
     if(currentChat === null) {
         currentChat = chat(message.sender, message.recipient, []);
-        ph_insert(user_chats, [message.sender, message.recipient].sort().join(""), currentChat);
+        ph_insert(user_chats,
+                  [message.sender, message.recipient].sort().join(""),
+                  currentChat);
     }
     
     currentChat.messages.push(message);
@@ -33,7 +37,8 @@ export function post_message(message: Message): void {
  * @param { Username } user2 - the user being chatted with
  * @returns { Array<Message> } - returns an array of the received messages of the given user
  */
-export function get_message(user1: Username, user2: Username, loadAll: boolean): Array<Message> {
+export function get_message(user1: Username, user2: Username, 
+                            loadAll: boolean): Array<Message> {
     let currentChat = find_chat(user1, user2);
     loadAll = Boolean(loadAll);
 
