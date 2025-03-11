@@ -1,4 +1,4 @@
-import { chat, message } from "./types/message";
+import { message } from "./types/message";
 import { post_message, get_message, find_chat } from "./endpoints/message";
 import { create_user, find_user } from "./endpoints/user";
 
@@ -18,6 +18,6 @@ test("finding and creating: CHATS", () => {
 });
 
 test("posting and getting messages", () => {
-    expect(find_chat(random_user.username,
-                     random_guy.username)?.messages[0].content_recipient).toBe(random_message.content_recipient);
+    expect((get_message(random_user.username,
+                        random_guy.username, true))[0].content_recipient.toBe(random_message.content_recipient));
 });
