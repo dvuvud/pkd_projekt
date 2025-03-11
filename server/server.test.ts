@@ -18,6 +18,6 @@ test("finding and creating: CHATS", () => {
 });
 
 test("posting and getting messages", () => {
-    expect((get_message(random_user.username,
-                        random_guy.username, true))[0].content_recipient.toBe(random_message.content_recipient));
+    expect(((get_message(random_user.username,
+                         random_guy.username, false))[0].content_recipient)).toBe(random_message.content_recipient);
 });
