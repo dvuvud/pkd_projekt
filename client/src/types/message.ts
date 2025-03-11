@@ -24,6 +24,13 @@ export type Chat = {
     messages: Array<Message>
 }
 
+/**
+ * Constructs a chat object
+ * @param { Username } user1
+ * @param { Username } user2
+ * @param { Array<Message> } messages - an array of messages
+ * @returns { Array<Message> } of a users received messages
+ */
 export function chat(user1: Username, user2: Username, messages: Array<Message>): Chat {
     return {
         user1,
