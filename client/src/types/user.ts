@@ -1,7 +1,9 @@
 
 /**
- * A User record storing information about a given user
- * add more comments later (gotta check how to write docs for records)
+ * A User stores information about a given user.
+ * username - the users name given by the client
+ * publicKey - the users public key,
+ * created on registration and stored by the server for encryption
  */
 export type User = {
     username: Username,
