@@ -46,15 +46,15 @@ export function chat(user1: Username, user2: Username, messages: Array<Message>)
  * @param { Username } recipient - the recipient
  * @param { Username } sender - the sender
  * @param { string } timestamp - the time set by the server
+ * @param { undefined | string } content_decrypted - decrypted message
  * @param { boolean } loaded_user1 - is it loaded by user1
  * @param { boolean } loaded_user2 - is it loaded by user2
- * @param { undefined | string } content_decrypted - decrypted message
  * @returns { Array<Message> } of a users received messages
  */
 export function message(content_recipient: string, content_sender: string,
                         recipient: Username, sender: Username, timestamp: string = "", 
-                        loaded_user1: boolean = false, loaded_user2: 
-                        boolean = false, content_decrypted: undefined = undefined): Message {
+                        content_decrypted: undefined = undefined,
+                        loaded_user1: boolean = false, loaded_user2: boolean = false): Message {
     return {
         content_recipient,
         content_sender,
